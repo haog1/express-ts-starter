@@ -2,22 +2,30 @@ import { DataTypes, Optional } from 'sequelize'
 import { GUID } from '../types/guid'
 import { initModelFields, sequelize } from '../utils'
 import { BaseModel } from './base'
-import { DefaultHiddenFields, IBaseModel } from './def'
+import { DefaultHiddenFields, IBaseModel, IBaseReturnAttrs } from './contract'
 
-interface ProductOptionAttrs extends IBaseModel {
+interface ProductOptionAttrs extends IBaseModel<GUID> {
+  name: string
+  description: string
+  productId: GUID
+  isNew: boolean
+  isDeleted: boolean
+}
+
+export interface ProductOptionCreationAttrs extends Optional<ProductOptionAttrs, DefaultHiddenFields> {}
+
+export interface ProductReturnAttrs extends IBaseReturnAttrs<GUID> {
   name: string
   description: string
   productId: GUID
   isNew: boolean
 }
 
-interface ProductOptionCreationAttrs extends Optional<ProductOptionAttrs, DefaultHiddenFields> {}
-
 class ProductOptionModel
   extends BaseModel<ProductOptionAttrs, ProductOptionCreationAttrs>
   implements ProductOptionAttrs
 {
-  productId!: GUID
+  public productId!: GUID
   public name!: string
   public description!: string
   public isNew!: boolean

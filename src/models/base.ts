@@ -1,22 +1,14 @@
 import { Model } from 'sequelize'
 import { GUID } from '../types/guid'
-import { IBaseModel } from './def'
+import { IBaseModel } from './contract'
 
-abstract class BaseModel<T extends IBaseModel, U extends {} = T> extends Model<T, U> {
-  public readonly id!: number
-  public readonly guid!: GUID
-  public createdBy?: string | undefined
-  public createdAt?: Date | undefined
-  public modifiedBy?: string | undefined
-  public modifiedAt?: Date | undefined
-  public _isDeleted: boolean = false
-
-  public get isDelete(): boolean {
-    return this._isDeleted
-  }
-  public delete(): void {
-    this._isDeleted = true
-  }
+abstract class BaseModel<T extends IBaseModel<GUID>, U extends {} = T> extends Model<T, U> implements IBaseModel<GUID> {
+  public guid!: GUID
+  public createdBy?: string
+  public createdAt?: Date
+  public modifiedBy?: string
+  public modifiedAt?: Date
+  public isDeleted: boolean = false
 }
 
 export { BaseModel }

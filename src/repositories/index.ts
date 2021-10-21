@@ -1,1 +1,2 @@
-export { SampleRepository } from './sample'
+export * from './products'
+export * from './base'

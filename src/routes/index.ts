@@ -1,8 +1,8 @@
 import express from 'express'
-import sample from './sample'
+import products from './products'
 
 const rootRoute = express.Router()
 
-rootRoute.use('/sample', sample)
+rootRoute.use('/products', products)
 
 export default rootRoute
