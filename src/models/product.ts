@@ -1,7 +1,7 @@
 import { DataTypes, Optional } from 'sequelize'
-import { sequelize } from '../utils/sequelize'
+import { initModelFields, sequelize } from '../utils'
 import { BaseModel } from './base'
-import { IBaseModel } from './interfaces/ibase-model'
+import { DefaultHiddenFields, IBaseModel } from './def'
 
 interface ProductAttrs extends IBaseModel {
   name: string
@@ -11,7 +11,7 @@ interface ProductAttrs extends IBaseModel {
   isNew: boolean
 }
 
-interface ProductCreationAttrs extends Optional<ProductAttrs, 'id' | '_isDeleted'> {}
+interface ProductCreationAttrs extends Optional<ProductAttrs, DefaultHiddenFields> {}
 
 class ProductModel extends BaseModel<ProductAttrs, ProductCreationAttrs> implements ProductAttrs {
   public name!: string
@@ -22,17 +22,7 @@ class ProductModel extends BaseModel<ProductAttrs, ProductCreationAttrs> impleme
 }
 
 ProductModel.init(
-  {
-    id: {
-      primaryKey: true,
-      autoIncrement: true,
-      type: DataTypes.INTEGER,
-    },
-    guid: {
-      primaryKey: true,
-      autoIncrement: true,
-      type: DataTypes.STRING,
-    },
+  initModelFields({
     name: {
       type: DataTypes.STRING,
     },
@@ -48,10 +38,7 @@ ProductModel.init(
     isNew: {
       type: DataTypes.STRING,
     },
-    _isDeleted: {
-      type: DataTypes.BOOLEAN,
-    },
-  },
+  }),
   {
     schema: 'public',
     tableName: 'products',

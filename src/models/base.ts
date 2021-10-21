@@ -1,6 +1,6 @@
 import { Model } from 'sequelize'
 import { GUID } from '../types/guid'
-import { IBaseModel } from './interfaces/ibase-model'
+import { IBaseModel } from './def'
 
 abstract class BaseModel<T extends IBaseModel, U extends {} = T> extends Model<T, U> {
   public readonly id!: number

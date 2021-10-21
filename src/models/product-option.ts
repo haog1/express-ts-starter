@@ -1,9 +1,8 @@
 import { DataTypes, Optional } from 'sequelize'
 import { GUID } from '../types/guid'
-import { initModelFields } from '../utils/init-model-fields'
-import { sequelize } from '../utils/sequelize'
+import { initModelFields, sequelize } from '../utils'
 import { BaseModel } from './base'
-import { IBaseModel } from './interfaces/ibase-model'
+import { DefaultHiddenFields, IBaseModel } from './def'
 
 interface ProductOptionAttrs extends IBaseModel {
   name: string
@@ -12,7 +11,7 @@ interface ProductOptionAttrs extends IBaseModel {
   isNew: boolean
 }
 
-interface ProductOptionCreationAttrs extends Optional<ProductOptionAttrs, 'id' | '_isDeleted'> {}
+interface ProductOptionCreationAttrs extends Optional<ProductOptionAttrs, DefaultHiddenFields> {}
 
 class ProductOptionModel
   extends BaseModel<ProductOptionAttrs, ProductOptionCreationAttrs>

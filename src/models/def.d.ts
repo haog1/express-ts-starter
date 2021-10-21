@@ -9,3 +9,5 @@ export interface IBaseModel {
   modifiedAt?: Date
   _isDeleted: boolean
 }
+
+export type DefaultHiddenFields = 'id' | '_isDeleted'
