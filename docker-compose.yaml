@@ -4,6 +4,3 @@ services:
   postgres:
     container_name: postgres
     image: postgres:10.4
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4:6

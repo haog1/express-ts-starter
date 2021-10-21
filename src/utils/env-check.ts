@@ -1,8 +1,24 @@
 export const checkingRequiredEnvVariables = () => {
   const envs = [
     {
-      key: 'APP_PORT',
-      value: process.env.APP_PORT,
+      key: 'DB_HOST',
+      value: process.env.DB_HOST,
+    },
+    {
+      key: 'DB_PORT',
+      value: process.env.DB_PORT,
+    },
+    {
+      key: 'DB_NAME',
+      value: process.env.DB_NAME,
+    },
+    {
+      key: 'DB_USER',
+      value: process.env.DB_USER,
+    },
+    {
+      key: 'DB_PASSWORD',
+      value: process.env.DB_PASSWORD,
     },
   ]
   let hasError = false

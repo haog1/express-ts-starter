@@ -1,15 +1,15 @@
 import dotenv from 'dotenv'
+dotenv.config()
+
 import express from 'express'
 import 'express-async-errors'
 import cors from 'cors'
 import { json } from 'body-parser'
 import cookieSession from 'cookie-session'
-
+import './types'
 import routes from './routes'
 
 import { preRoute, postRoute } from './middlewares'
-
-dotenv.config()
 
 if (!process.env.APP_PORT) {
   throw Error('APP Port is not defined')

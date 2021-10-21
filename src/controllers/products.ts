@@ -2,16 +2,19 @@ import { Request, Response, NextFunction } from 'express'
 import { BaseController } from '.'
 import { BadRequest } from '../constants'
 import { NoRepositoryError } from '../errors'
-import { IBaseRepository } from '../repositories/contract'
+import { BaseModel } from '../models/base'
+import { IBaseModel } from '../models/contract'
+import { IRepository } from '../repositories/contract'
+import { GUID } from '../types/guid'
 
 export class ProductsController extends BaseController {
-  private readonly _repository: IBaseRepository
+  private readonly _repository: IRepository<IBaseModel<GUID>>
 
   public get repository() {
     return this._repository
   }
 
-  constructor(repo: IBaseRepository) {
+  constructor(repo: IRepository<IBaseModel<GUID>>) {
     super()
     if (!repo) {
       throw new NoRepositoryError()

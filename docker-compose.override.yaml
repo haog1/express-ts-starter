@@ -11,30 +11,8 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: table
     restart: unless-stopped
-    networks:
-      - localDbNetwork
-
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    restart: unless-stopped
-    ports:
-      - "5002:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.admin
-      PGADMIN_DEFAULT_PASSWORD: admin
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-      - localDbEnv:/pgadmin
-    networks:
-      - localDbNetwork
-    depends_on:
-      - postgres
-
-networks:
-  localDbNetwork:
-    driver: bridge
 
 volumes:
   localDbEnv:
