@@ -1,6 +1,5 @@
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import mongoose from 'mongoose'
-import { signToken } from '@haog1/micro-core'
 
 interface TestUser {
   name: string
@@ -62,7 +61,7 @@ global.signin = user => {
   return [
     `express:sess=${Buffer.from(
       JSON.stringify({
-        jwt: signToken(testUser),
+        jwt: 'somestring',
       }),
     ).toString('base64')}`,
   ]

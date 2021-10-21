@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
-import { Ok } from '@haog1/micro-core'
+import { Ok } from '../constants'
 import { SampleEventPublisher } from '../events'
-import { natsInstance } from '@haog1/micro-nats'
 import { SampleRepository } from '../repositories'
 
 export default {
@@ -16,7 +15,7 @@ export default {
       request1,
       request2,
     })
-    await new SampleEventPublisher(natsInstance.getClient()).publish(res.data)
+    // await new SampleEventPublisher(natsInstance.getClient()).publish(res.data)
     res.code = Ok
     next()
   },

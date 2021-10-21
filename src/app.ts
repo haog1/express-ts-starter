@@ -7,7 +7,7 @@ import cookieSession from 'cookie-session'
 
 import routes from './routes'
 
-import { preRoute, postRoute } from '@haog1/micro-core'
+import { preRoute, postRoute } from './middlewares'
 
 dotenv.config()
 

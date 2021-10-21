@@ -1,6 +1,6 @@
 import request from 'supertest'
 import app from '../app'
-import { Ok } from '@haog1/micro-core'
+import { Ok } from '../constants'
 
 describe('Sample test', () => {
   it('returns sample data', async () => {

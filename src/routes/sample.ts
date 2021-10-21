@@ -1,5 +1,5 @@
 import express from 'express'
-import { authMiddleware, routeFound } from '@haog1/micro-core'
+import { authMiddleware, routeFound } from '../middlewares'
 
 import controller from '../controllers/sample'
 

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { DatabaseConnectionError } from '@haog1/micro-core'
+import { DatabaseConnectionError } from '../errors'
 
 export const startDb = async (path: string = '') => {
   try {
