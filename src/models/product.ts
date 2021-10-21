@@ -10,7 +10,6 @@ export interface ProductAttrs extends IBaseModel<GUID> {
   price: number
   deliveryPrice: number
   isNew: boolean
-  isDeleted: boolean
 }
 
 export interface ProductCreationAttrs extends Optional<ProductAttrs, DefaultHiddenFields> {}
@@ -43,9 +42,11 @@ ProductModel.init(
     },
     deliveryPrice: {
       type: DataTypes.STRING,
+      field: 'delivery_price',
     },
     isNew: {
       type: DataTypes.STRING,
+      field: 'is_new',
     },
   }),
   {

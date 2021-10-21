@@ -20,7 +20,7 @@ services:
     image: dpage/pgadmin4
     restart: unless-stopped
     ports:
-      - "5002:5002"
+      - "5002:80"
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.admin
       PGADMIN_DEFAULT_PASSWORD: admin

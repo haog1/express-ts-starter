@@ -1,5 +1,6 @@
 export interface IBaseModel<T> {
   guid: T
+  isDeleted: boolean
 }
 
 export interface IBaseReturnAttrs<T> {

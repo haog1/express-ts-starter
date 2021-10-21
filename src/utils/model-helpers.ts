@@ -9,24 +9,9 @@ export const initModelFields = (fields: ModelAttributes): ModelAttributes => {
       primaryKey: true,
       type: DataTypes.STRING,
     },
-    modifiedBy: {
-      type: DataTypes.STRING,
-      field: 'modifiedby',
-    },
-    createdBy: {
-      type: DataTypes.STRING,
-      field: 'createdby',
-    },
-    createdAt: {
-      type: 'TIMESTAMP WITHOUT TIME ZONE',
-      field: 'createdat',
-    },
-    modifiedAt: {
-      type: 'TIMESTAMP WITHOUT TIME ZONE',
-      field: 'modifiedat',
-    },
     isDeleted: {
       type: DataTypes.BOOLEAN,
+      field: 'is_deleted',
     },
   }
   return {

@@ -9,7 +9,6 @@ interface ProductOptionAttrs extends IBaseModel<GUID> {
   description: string
   productId: GUID
   isNew: boolean
-  isDeleted: boolean
 }
 
 export interface ProductOptionCreationAttrs extends Optional<ProductOptionAttrs, DefaultHiddenFields> {}
@@ -35,6 +34,7 @@ ProductOptionModel.init(
   initModelFields({
     productId: {
       type: DataTypes.STRING,
+      field: 'product_id',
     },
     name: {
       type: DataTypes.STRING,
@@ -44,6 +44,7 @@ ProductOptionModel.init(
     },
     isNew: {
       type: DataTypes.STRING,
+      field: 'is_new',
     },
   }),
   {
