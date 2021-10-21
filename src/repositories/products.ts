@@ -1,5 +1,5 @@
 import { IRepository } from './contract'
-import { ProductModel, ProductReturnAttrs } from '../models/product'
+import { ProductAttrs, ProductModel, ProductReturnAttrs } from '../models/product'
 
 export class ProductsRepository implements IRepository<ProductReturnAttrs> {
   public async getAll<ProductReturnAttrs>(): Promise<ProductReturnAttrs[]> {
@@ -17,18 +17,19 @@ export class ProductsRepository implements IRepository<ProductReturnAttrs> {
       raw: true,
     })
 
-    return products as unknown as ProductReturnAttrs[]
+    const returnData = products.map((product: Partial<ProductAttrs>) => product as ProductReturnAttrs)
+    return returnData
   }
-  public async getOne<Model>(param: any): Promise<Model> {
+  public async getOne<ProductReturnAttrs>(param: any): Promise<ProductReturnAttrs> {
     throw new Error('Method not implemented.')
   }
-  public async create<Model>(post: any): Promise<void> {
+  public async create<ProductReturnAttrs>(post: any): Promise<void> {
     throw new Error('Method not implemented.')
   }
-  public async update<Model>(param: any): Promise<void> {
+  public async update<ProductReturnAttrs>(param: any): Promise<void> {
     throw new Error('Method not implemented.')
   }
-  public async delete<Model>(param: any): Promise<void> {
+  public async delete<ProductReturnAttrs>(param: any): Promise<void> {
     throw new Error('Method not implemented.')
   }
 }
