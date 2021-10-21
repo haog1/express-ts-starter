@@ -1,9 +1,9 @@
-import { DataTypes, Model, Optional } from 'sequelize/types'
+import { DataTypes, Optional } from 'sequelize'
 import { sequelize } from '../utils/sequelize'
 import { BaseModel } from './base'
-import { IBase } from './interfaces/ibase'
+import { IBaseModel } from './interfaces/ibase-model'
 
-interface ProductAttrs extends IBase {
+interface ProductAttrs extends IBaseModel {
   name: string
   description: string
   price: number

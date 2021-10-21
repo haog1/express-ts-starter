@@ -1,8 +1,8 @@
-import { Model } from 'sequelize/types'
+import { Model } from 'sequelize'
 import { GUID } from '../types/guid'
-import { IBase } from './interfaces/ibase'
+import { IBaseModel } from './interfaces/ibase-model'
 
-abstract class BaseModel<T extends IBase, U extends {} = T> extends Model<T, U> {
+abstract class BaseModel<T extends IBaseModel, U extends {} = T> extends Model<T, U> {
   public readonly id!: number
   public readonly guid!: GUID
   public createdBy?: string | undefined

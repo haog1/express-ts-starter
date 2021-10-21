@@ -15,10 +15,6 @@ if (!process.env.APP_PORT) {
   throw Error('APP Port is not defined')
 }
 
-if (!process.env.API_VERSION) {
-  throw Error('API Version is not defined')
-}
-
 const app = express()
 
 app.use(
@@ -39,6 +35,6 @@ app.use(
   }),
 )
 
-app.use(`/api/${process.env.API_VERSION}`, preRoute, routes, postRoute)
+app.use(`/api`, preRoute, routes, postRoute)
 
 export default app

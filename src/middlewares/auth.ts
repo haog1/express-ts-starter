@@ -1,7 +1,14 @@
 import { Request, Response, NextFunction } from 'express'
 import { JsonWebTokenError } from 'jsonwebtoken'
 import { UnauthorizedError } from '../errors/UnauthorizedError'
-import { verifyToken } from '../utils'
+import { UserPayload } from '../types/express'
+
+const verifyToken = (token: string): UserPayload => {
+  return {
+    id: 'some id',
+    email: 'someemail@email.example',
+  }
+}
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   if (!req.session?.token && req.headers!.cookie) {
