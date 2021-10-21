@@ -1,0 +1,11 @@
+node_modules/
+package-lock.json
+yarn.lock
+.husky
+.git
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+sync.sh
+sync-example.sh
