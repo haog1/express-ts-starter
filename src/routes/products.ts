@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Request, Response, NextFunction } from 'express'
 import { routeFound, validateRequest } from '../middlewares'
 import { ProductsController } from '../controllers'
 import { ProductsRepository } from '../repositories'
@@ -6,7 +6,6 @@ import { ProductsRepository } from '../repositories'
 const router = express.Router({ mergeParams: true })
 
 const repo = new ProductsRepository()
-const controller = new ProductsController(repo)
 
 router.get(
   '/',
@@ -19,7 +18,7 @@ router.get(
       optional: true,
     },
   }),
-  controller.getAll,
+  (req: Request, res: Response, next: NextFunction) => new ProductsController(repo).getAll(req, res, next),
 )
 
 export default router

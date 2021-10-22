@@ -9,7 +9,7 @@ export class ProductsRepository implements IRepository<ProductReturnAttrs> {
         ['name', 'Name'],
         ['description', 'Description'],
         ['price', 'Price'],
-        ['deliveryPrice', 'DeliveryPrice'],
+        ['delivery_price', 'DeliveryPrice'],
       ],
       where: {
         isDeleted: false,

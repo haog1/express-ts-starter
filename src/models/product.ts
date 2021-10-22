@@ -38,10 +38,10 @@ ProductModel.init(
       type: DataTypes.STRING,
     },
     price: {
-      type: DataTypes.STRING,
+      type: DataTypes.NUMBER,
     },
     deliveryPrice: {
-      type: DataTypes.STRING,
+      type: DataTypes.NUMBER,
       field: 'delivery_price',
     },
     isNew: {

@@ -21,7 +21,7 @@ export const postRoute = [
     }
     next()
   },
-  (req: Request, res: Response, next: NextFunction) => {
+  (req: Request, res: Response) => {
     return res.status(res.code || Ok).send({
       success: true,
       data: res.data,
