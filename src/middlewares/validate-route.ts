@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, RequestHandler } from 'express'
-import { checkSchema, Schema, ValidationChain, validationResult } from 'express-validator'
+import { checkSchema, Schema, validationResult } from 'express-validator'
 import { RequestValidationError } from '../errors'
 
 export type SchemaValidationResult = [RequestHandler, (req: Request, res: Response, next: NextFunction) => void]

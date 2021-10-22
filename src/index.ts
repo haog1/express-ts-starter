@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import app from './app'
-import { checkingRequiredEnvVariables } from './utils/env-check'
+import { checkingRequiredEnvVariables } from './utils'
 
 const port = process.env.APP_PORT
 

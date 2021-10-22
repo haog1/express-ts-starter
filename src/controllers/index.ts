@@ -1,2 +1,6 @@
 export * from './base'
-export * from './products'
+import { ProductsController } from './products'
+
+const productsController = new ProductsController()
+
+export { productsController }

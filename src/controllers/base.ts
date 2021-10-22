@@ -1,24 +1,27 @@
 import { Request, Response, NextFunction } from 'express'
 import { NoRepositoryError } from '../errors'
-import { IBaseModel } from '../models/contract'
+import { IModel } from '../models/contract'
 import { IRepository } from '../repositories/contract'
 import { GUID } from '../types/guid'
-import { IBaseController } from './contract'
+import { IController } from './contract'
 
-export abstract class BaseController implements IBaseController {
-  protected _repository: IRepository<IBaseModel<GUID>>
+export abstract class BaseController implements IController {
+  protected _repository?: IRepository<IModel<GUID>>
 
-  public get repository() {
+  constructor(repo?: IRepository<IModel<GUID>>) {
+    if (repo) {
+      this._repository = repo
+    }
+  }
+
+  getRepository(): IRepository<IModel<GUID>> {
     if (!this._repository) {
       throw new NoRepositoryError()
     }
     return this._repository
   }
 
-  constructor(repo: IRepository<IBaseModel<GUID>>) {
-    if (!repo) {
-      throw new NoRepositoryError()
-    }
+  public setRepository(repo: IRepository<IModel<GUID>>): void {
     this._repository = repo
   }
 

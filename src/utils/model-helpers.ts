@@ -1,6 +1,6 @@
 import { BelongsToOptions, HasOneOptions, HasManyOptions, DataTypes, ModelAttributes } from 'sequelize'
 import { BaseModel } from '../models/base'
-import { IBaseModel } from '../models/contract'
+import { IModel } from '../models/contract'
 import { GUID } from '../types/guid'
 
 export const initModelFields = (fields: ModelAttributes): ModelAttributes => {
@@ -20,7 +20,7 @@ export const initModelFields = (fields: ModelAttributes): ModelAttributes => {
   }
 }
 
-class Base<T extends IBaseModel<GUID>, U> extends BaseModel<T, U> {} // model type convert purpose
+class Base<T extends IModel<GUID>, U> extends BaseModel<T, U> {} // model type convert purpose
 
 export type Instance = typeof Base
 

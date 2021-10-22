@@ -2,9 +2,9 @@ import { DataTypes, Optional } from 'sequelize'
 import { GUID } from '../types/guid'
 import { initModelFields, sequelize } from '../utils'
 import { BaseModel } from './base'
-import { DefaultHiddenFields, IBaseModel, IBaseReturnAttrs } from './contract'
+import { DefaultHiddenFields, IModel, IBaseReturnAttrs } from './contract'
 
-interface ProductOptionAttrs extends IBaseModel<GUID> {
+interface ProductOptionAttrs extends IModel<GUID> {
   name: string
   description: string
   productId: GUID

@@ -1,7 +1,7 @@
-import { IRepository } from './contract'
-import { ProductAttrs, ProductModel, ProductReturnAttrs } from '../models/product'
+import { ProductAttrs, ProductModel } from '../models/product'
+import { BaseRepository } from './base'
 
-export class ProductsRepository implements IRepository<ProductReturnAttrs> {
+export class ProductsRepository extends BaseRepository {
   public async getAll<ProductReturnAttrs>(): Promise<ProductReturnAttrs[]> {
     const products = await ProductModel.findAll({
       attributes: [
@@ -17,19 +17,6 @@ export class ProductsRepository implements IRepository<ProductReturnAttrs> {
       raw: true,
     })
 
-    const returnData = products.map((product: Partial<ProductAttrs>) => product as ProductReturnAttrs)
-    return returnData
-  }
-  public async getOne<ProductReturnAttrs>(param: any): Promise<ProductReturnAttrs> {
-    throw new Error('Method not implemented.')
-  }
-  public async create<ProductReturnAttrs>(post: any): Promise<void> {
-    throw new Error('Method not implemented.')
-  }
-  public async update<ProductReturnAttrs>(param: any): Promise<void> {
-    throw new Error('Method not implemented.')
-  }
-  public async delete<ProductReturnAttrs>(param: any): Promise<void> {
-    throw new Error('Method not implemented.')
+    return products.map((product: Partial<ProductAttrs>) => product as ProductReturnAttrs)
   }
 }

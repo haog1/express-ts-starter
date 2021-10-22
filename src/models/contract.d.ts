@@ -1,4 +1,4 @@
-export interface IBaseModel<T> {
+export interface IModel<T> {
   guid: T
   isDeleted: boolean
 }
