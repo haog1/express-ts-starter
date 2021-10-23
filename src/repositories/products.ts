@@ -2,7 +2,7 @@ import { ProductAttrs, ProductModel } from '../models/product'
 import { BaseRepository } from './base'
 
 export class ProductsRepository extends BaseRepository {
-  public async getAll<ProductReturnAttrs>(): Promise<ProductReturnAttrs[]> {
+  public async getAll<ProductModel>(): Promise<ProductModel[]> {
     const products = await ProductModel.findAll({
       attributes: [
         ['guid', 'Id'],
@@ -16,7 +16,6 @@ export class ProductsRepository extends BaseRepository {
       },
       raw: true,
     })
-
-    return products.map((product: Partial<ProductAttrs>) => product as ProductReturnAttrs)
+    return products.map((product: Partial<ProductAttrs>) => product as ProductModel)
   }
 }
