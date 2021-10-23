@@ -4,7 +4,7 @@ import { Ok } from '../../constants'
 import { ProductModel } from '../../models/product'
 
 jest.mock('../../models/product')
-0
+
 describe('/products collection', () => {
   afterAll(async () => {
     await new Promise<void>(resolve => setTimeout(() => resolve(), 500))
