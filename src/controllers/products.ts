@@ -11,7 +11,7 @@ export class ProductsController extends BaseController {
     super(repo)
   }
 
-  async getAll(req: Request, res: Response, next: NextFunction): Promise<void | never> {
+  getAll = async (req: Request, res: Response, next: NextFunction): Promise<void | never> => {
     try {
       if (!this._repository) {
         throw new NoRepositoryError()
