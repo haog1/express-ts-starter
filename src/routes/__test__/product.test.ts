@@ -24,6 +24,7 @@ describe('/products collection', () => {
     })
     const response = await supertest(app).get('/api/products').send({}).expect(Ok)
     const { data, success } = response.body
+    expect(ProductModel.findAll).toHaveBeenCalled()
     expect(success).toBe(true)
     expect(data).toEqual([
       {
