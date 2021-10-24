@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import app from './app'
+import { ServiceUnavailable } from './constants'
 import { checkingRequiredEnvVariables } from './utils'
 
 const port = process.env.APP_PORT
@@ -11,7 +12,7 @@ app.get('/healthcheck', async (req: Request, res: Response, next: NextFunction) 
       timestamp: Date.now(),
     })
   } catch (e) {
-    res.status(503).send()
+    res.status(ServiceUnavailable).send()
   }
 })
 

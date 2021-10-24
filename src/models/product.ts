@@ -2,49 +2,45 @@ import { DataTypes, Optional } from 'sequelize'
 import { GUID } from '../types/guid'
 import { initModelFields, sequelize } from '../utils'
 import { BaseModel } from './base'
-import { DefaultHiddenFields, IModel, IBaseReturnAttrs } from './contract'
+import { DefaultHiddenFields, IModel } from './contract'
 
 export interface ProductAttrs extends IModel<GUID> {
-  name: string
-  description: string
-  price: number
-  deliveryPrice: number
-  isNew: boolean
+  Name: string
+  Description: string
+  Price: number
+  DeliveryPrice: number
+  IsNew: boolean
 }
 
 export interface ProductCreationAttrs extends Optional<ProductAttrs, DefaultHiddenFields> {}
 
-export interface ProductReturnAttrs extends IBaseReturnAttrs<GUID> {
-  Name?: string
-  Description?: string
-  Price?: number
-  DeliveryPrice?: number
-}
-
 class ProductModel extends BaseModel<ProductAttrs, ProductCreationAttrs> implements ProductAttrs {
-  public name!: string
-  public description!: string
-  public price!: number
-  public deliveryPrice!: number
-  public isNew!: boolean
+  public Name!: string
+  public Description!: string
+  public Price!: number
+  public DeliveryPrice!: number
+  public IsNew!: boolean
 }
 
 ProductModel.init(
   initModelFields({
-    name: {
+    Name: {
       type: DataTypes.STRING,
+      field: 'name',
     },
-    description: {
+    Description: {
       type: DataTypes.STRING,
+      field: 'description',
     },
-    price: {
+    Price: {
       type: DataTypes.NUMBER,
+      field: 'price',
     },
-    deliveryPrice: {
+    DeliveryPrice: {
       type: DataTypes.NUMBER,
       field: 'delivery_price',
     },
-    isNew: {
+    IsNew: {
       type: DataTypes.STRING,
       field: 'is_new',
     },

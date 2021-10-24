@@ -1,19 +1,41 @@
+import { Op } from 'sequelize'
 import { ProductAttrs, ProductModel } from '../models/product'
 import { BaseRepository } from './base'
 
 export class ProductsRepository extends BaseRepository {
-  public async getAll<ProductModel>(): Promise<ProductModel[]> {
+  public async getAllByName<ProductModel>(
+    offset: number = 0,
+    limit: number = 5,
+    name: string,
+  ): Promise<ProductModel[]> {
     const products = await ProductModel.findAll({
-      attributes: [
-        ['guid', 'Id'],
-        ['name', 'Name'],
-        ['description', 'Description'],
-        ['price', 'Price'],
-        ['delivery_price', 'DeliveryPrice'],
-      ],
-      where: {
-        isDeleted: false,
+      attributes: {
+        exclude: ['IsDeleted'],
       },
+      where: {
+        IsDeleted: false,
+        Name: {
+          [Op.iLike]: `%${name}%`,
+        },
+      },
+      limit,
+      offset,
+      raw: true,
+    })
+
+    return products.map((product: Partial<ProductAttrs>) => product as ProductModel)
+  }
+
+  public async getAll<ProductModel>(offset: number = 0, limit: number = 5): Promise<ProductModel[]> {
+    const products = await ProductModel.findAll({
+      attributes: {
+        exclude: ['IsDeleted'],
+      },
+      where: {
+        IsDeleted: false,
+      },
+      limit,
+      offset,
       raw: true,
     })
     return products.map((product: Partial<ProductAttrs>) => product as ProductModel)

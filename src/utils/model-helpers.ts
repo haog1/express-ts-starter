@@ -5,11 +5,12 @@ import { GUID } from '../types/guid'
 
 export const initModelFields = (fields: ModelAttributes): ModelAttributes => {
   const defaultFields = {
-    guid: {
+    Id: {
       primaryKey: true,
       type: DataTypes.STRING,
+      field: 'guid',
     },
-    isDeleted: {
+    IsDeleted: {
       type: DataTypes.BOOLEAN,
       field: 'is_deleted',
     },

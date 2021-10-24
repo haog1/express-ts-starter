@@ -1,1 +1,1 @@
-export * from './statusCode'
+export * from './status-code'

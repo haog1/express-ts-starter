@@ -1,6 +1,8 @@
 import express from 'express'
 import { routeFound, validateRequest } from '../middlewares'
-import { productsController as controller } from '../controllers'
+import { injectRepository } from '../utils'
+import { productsController } from '../controllers'
+import { productRepository } from '../repositories'
 
 const router = express.Router({ mergeParams: true })
 
@@ -14,8 +16,23 @@ router.get(
       notEmpty: true,
       optional: true,
     },
+    offset: {
+      in: ['query'],
+      isInt: true,
+      toInt: true,
+      notEmpty: true,
+      optional: true,
+    },
+    limit: {
+      in: ['query'],
+      isInt: true,
+      toInt: true,
+      notEmpty: true,
+      optional: true,
+    },
   }),
-  controller.getAll,
+  injectRepository(productsController, productRepository),
+  productsController.getAll,
 )
 
 export default router

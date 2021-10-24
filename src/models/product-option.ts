@@ -2,47 +2,42 @@ import { DataTypes, Optional } from 'sequelize'
 import { GUID } from '../types/guid'
 import { initModelFields, sequelize } from '../utils'
 import { BaseModel } from './base'
-import { DefaultHiddenFields, IModel, IBaseReturnAttrs } from './contract'
+import { DefaultHiddenFields, IModel } from './contract'
 
 interface ProductOptionAttrs extends IModel<GUID> {
-  name: string
-  description: string
-  productId: GUID
-  isNew: boolean
+  Name: string
+  Description: string
+  ProductId: GUID
+  IsNew: boolean
 }
 
 export interface ProductOptionCreationAttrs extends Optional<ProductOptionAttrs, DefaultHiddenFields> {}
-
-export interface ProductReturnAttrs extends IBaseReturnAttrs<GUID> {
-  name: string
-  description: string
-  productId: GUID
-  isNew: boolean
-}
 
 class ProductOptionModel
   extends BaseModel<ProductOptionAttrs, ProductOptionCreationAttrs>
   implements ProductOptionAttrs
 {
-  public productId!: GUID
-  public name!: string
-  public description!: string
-  public isNew!: boolean
+  public ProductId!: GUID
+  public Name!: string
+  public Description!: string
+  public IsNew!: boolean
 }
 
 ProductOptionModel.init(
   initModelFields({
-    productId: {
+    ProductId: {
       type: DataTypes.STRING,
       field: 'product_id',
     },
-    name: {
+    Name: {
       type: DataTypes.STRING,
+      field: 'name',
     },
-    description: {
+    Description: {
       type: DataTypes.STRING,
+      field: 'description',
     },
-    isNew: {
+    IsNew: {
       type: DataTypes.STRING,
       field: 'is_new',
     },

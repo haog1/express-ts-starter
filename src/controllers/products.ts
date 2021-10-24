@@ -6,6 +6,12 @@ import { IModel } from '../models/contract'
 import { IRepository } from '../repositories/contract'
 import { GUID } from '../types/guid'
 
+interface GetProductsParameters {
+  name?: string
+  offset: number
+  limit: number
+}
+
 export class ProductsController extends BaseController {
   constructor(repo?: IRepository<IModel<GUID>>) {
     super(repo)
@@ -16,8 +22,15 @@ export class ProductsController extends BaseController {
       if (!this._repository) {
         throw new NoRepositoryError()
       }
-      res.data = await this._repository.getAll()
-      res.code = Ok
+      const { name, limit, offset } = req.query as unknown as GetProductsParameters
+      if (name) {
+        res.data = await this._repository.getAllByName(limit, offset, name)
+        res.code = Ok
+      } else {
+        res.data = await this._repository.getAll(limit, offset)
+        res.code = Ok
+      }
+
       next()
     } catch (error) {
       console.error('err = ', error)
