@@ -1,5 +1,4 @@
 import express from 'express'
-import { IsFloatOptions } from 'express-validator/src/options'
 import { routeFound, validateRequest } from '../middlewares'
 import { productsController } from '../controllers'
 import { productRepository } from '../repositories'

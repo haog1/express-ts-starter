@@ -6,22 +6,22 @@ import { GUID } from '../types/guid'
 import { IController } from '.'
 
 export abstract class BaseController implements IController {
-  protected _repository?: IRepository<IModel<number, GUID>>
+  protected _repository?: IRepository
 
-  constructor(repo?: IRepository<IModel<number, GUID>>) {
+  constructor(repo?: IRepository) {
     if (repo) {
       this._repository = repo
     }
   }
 
-  getRepository(): IRepository<IModel<number, GUID>> {
+  getRepository(): IRepository {
     if (!this._repository) {
       throw new NoRepositoryError()
     }
     return this._repository
   }
 
-  public setRepository(repo: IRepository<IModel<number, GUID>>): void {
+  public setRepository(repo: IRepository): void {
     this._repository = repo
   }
 

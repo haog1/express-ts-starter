@@ -1,15 +1,14 @@
 import { Request, Response, NextFunction } from 'express'
 import { BaseController } from './base'
 import { BadRequest, Ok } from '../constants'
-import { IModel, ProductCreationAttrs } from '../models'
+import { ProductCreationAttrs } from '../models'
 import { GetProductsParameters, CreateProductParameters, RemoveProductParameter } from '../parameters/products'
 import { IRepository } from '../repositories'
-import { GUID } from '../types/guid'
 import { mapData, logger } from '../utils'
 import { NotFoundError } from '../errors'
 
 export class ProductsController extends BaseController {
-  constructor(repo?: IRepository<IModel<number, GUID>>) {
+  constructor(repo?: IRepository) {
     super(repo)
   }
 

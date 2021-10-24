@@ -1,4 +1,5 @@
-import { Op } from 'sequelize'
+import { Op, Optional } from 'sequelize'
+import { DefaultHiddenFields } from '../models'
 import { ProductAttrs, ProductCreationAttrs, ProductModel } from '../models/product'
 import { GUID } from '../types/guid'
 import { sequelize, generateId } from '../utils'
@@ -57,18 +58,16 @@ export class ProductsRepository extends BaseRepository {
     })) as Partial<ProductAttrs> as ProductModel
   }
 
-  async create(entity: ProductCreationAttrs): Promise<GUID | null> {
+  async create<ProductCreationAttrs>(entity: ProductCreationAttrs): Promise<GUID | null> {
     const transaction = await sequelize.transaction()
     try {
       const Guid = generateId()
-      await ProductModel.create(
-        {
-          ...entity,
-          Guid,
-          IsDeleted: false,
-        },
-        { transaction },
-      )
+      const toCreate = {
+        ...entity,
+        Guid,
+        IsDeleted: false,
+      } as unknown as Optional<ProductAttrs, DefaultHiddenFields>
+      await ProductModel.create(toCreate, { transaction })
       await transaction.commit()
       return Guid
     } catch (error) {
@@ -77,7 +76,7 @@ export class ProductsRepository extends BaseRepository {
     }
   }
 
-  async updateOne(guid: GUID, entity: ProductCreationAttrs): Promise<GUID | null> {
+  async updateOne<ProductCreationAttrs>(guid: GUID, entity: ProductCreationAttrs): Promise<GUID | null> {
     const product = await this.getOne(guid)
     if (!product) return null
     const transaction = await sequelize.transaction()
