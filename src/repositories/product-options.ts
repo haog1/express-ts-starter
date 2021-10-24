@@ -1,32 +1,11 @@
-import { Op, Optional } from 'sequelize'
+import { Optional } from 'sequelize'
 import { DefaultHiddenFields } from '../models'
-import { ProductOptionAttrs, ProductOptionCreationAttrs, ProductOption } from '../models/product-option'
+import { ProductOptionAttrs, ProductOption } from '../models/product-option'
 import { GUID } from '../types/guid'
 import { sequelize, generateId } from '../utils'
 import { BaseRepository } from './base'
 
 export class ProductOptionOptionsRepository extends BaseRepository {
-  async getAllByName<ProductOption>(offset: number = 0, limit: number = 5, name: string): Promise<ProductOption[]> {
-    const productOptions = await ProductOption.findAll({
-      attributes: {
-        include: [['guid', 'Id']],
-        exclude: ['Id', 'Guid', 'IsDeleted'],
-      },
-      where: {
-        IsDeleted: false,
-        Name: {
-          [Op.iLike]: `%${name}%`,
-        },
-      },
-      order: [['id', 'desc']],
-      limit,
-      offset,
-      raw: true,
-    })
-
-    return productOptions.map((ProductOption: Partial<ProductOptionAttrs>) => ProductOption as ProductOption)
-  }
-
   async getAll<ProductOption>(offset: number = 0, limit: number = 5): Promise<ProductOption[]> {
     const productOptions = await ProductOption.findAll({
       attributes: {
