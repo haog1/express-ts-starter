@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { BaseController } from './base'
 import { BadRequest, Ok } from '../constants'
 import { IModel } from '../models/contract'
-import { GetProductByIdParameter, GetProductsParameters } from '../parameters/products'
+import { GetProductByIdParameter, GetProductsParameters, CreateProductParameters } from '../parameters/products'
 import { IRepository } from '../repositories/contract'
 import { GUID } from '../types/guid'
 
@@ -36,6 +36,20 @@ export class ProductsController extends BaseController {
       const repo = this.getRepository()
       const { id } = req.params as unknown as GetProductByIdParameter
       res.data = await repo.getOne(id)
+      res.code = Ok
+      next()
+    } catch (error) {
+      console.error('err ==', error)
+      res.code = BadRequest
+      throw error
+    }
+  }
+
+  create = async (req: Request, res: Response, next: NextFunction): Promise<void | never> => {
+    try {
+      const repo = this.getRepository()
+      const createProductParameters = req.params as unknown as CreateProductParameters
+      res.data = await repo.create(...createProductParameters)
       res.code = Ok
       next()
     } catch (error) {

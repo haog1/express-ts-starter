@@ -8,3 +8,10 @@ export interface GetProductsParameters extends PaginationParameters {
 export interface GetProductByIdParameter {
   id: GUID
 }
+
+export interface CreateProductParameters {
+  Name: string
+  Description: string
+  Price: number
+  DeliveryPrice: number
+}

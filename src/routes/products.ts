@@ -1,4 +1,5 @@
 import express from 'express'
+import { IsFloatOptions } from 'express-validator/src/options'
 import { routeFound, validateRequest } from '../middlewares'
 import { productsController } from '../controllers'
 import { productRepository } from '../repositories'
@@ -34,6 +35,43 @@ router.get(
     },
   }),
   productsController.getAll,
+)
+
+router.post(
+  '/',
+  routeFound,
+  // authMiddleware, /* if auth is required */
+  validateRequest({
+    Name: {
+      in: ['body'],
+      notEmpty: true,
+    },
+    Description: {
+      in: ['body'],
+      notEmpty: true,
+    },
+    Price: {
+      in: ['body'],
+      notEmpty: true,
+      isFloat: {
+        options: {
+          min: 0,
+        },
+      },
+      toFloat: true,
+    },
+    DeliveryPrice: {
+      in: ['body'],
+      notEmpty: true,
+      isFloat: {
+        options: {
+          min: 0,
+        },
+      },
+      toFloat: true,
+    },
+  }),
+  productsController.create,
 )
 
 router.get(

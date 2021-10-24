@@ -1,9 +1,11 @@
 import { Model } from 'sequelize'
 import { IModel } from '../models/contract'
+import { ProductCreationAttrs } from '../models/product'
 import { GUID } from '../types/guid'
 
 export interface IRepository<T extends IModel> {
-  getAll<T extends Model>(offset: number, limit: number): Promise<T[]>
-  getAllByName<T extends Model>(offset: number, limit: number, name: string): Promise<T[]>
-  getOne<T extends Model>(id: GUID): Promise<T | null>
+  getAll<M extends Model>(offset: number, limit: number): Promise<M[]>
+  getAllByName<M extends Model>(offset: number, limit: number, name: string): Promise<M[]>
+  getOne<M extends Model>(id: GUID): Promise<M | null>
+  create(entity: ProductCreationAttrs): Promise<GUID | null>
 }
