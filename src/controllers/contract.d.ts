@@ -6,4 +6,5 @@ interface IController {
   getRepository<T>(): IRepository<IModel<T>>
   setRepository<T>(repo: IRepository<IModel<T>>): void
   getAll(req: Request, res: Response, next: NextFunction): Promise<void | never>
+  getOne(req: Request, res: Response, next: NextFunction): Promise<void | never>
 }

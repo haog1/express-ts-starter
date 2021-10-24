@@ -1,5 +1,6 @@
 import { Op } from 'sequelize'
 import { ProductAttrs, ProductModel } from '../models/product'
+import { GUID } from '../types/guid'
 import { BaseRepository } from './base'
 
 export class ProductsRepository extends BaseRepository {
@@ -39,5 +40,9 @@ export class ProductsRepository extends BaseRepository {
       raw: true,
     })
     return products.map((product: Partial<ProductAttrs>) => product as ProductModel)
+  }
+
+  public async getOne<ProductModel>(id: GUID): Promise<ProductModel | null> {
+    return (await ProductModel.findByPk(id)) as Partial<ProductAttrs> as ProductModel
   }
 }

@@ -2,6 +2,7 @@ import express from 'express'
 import { routeFound, validateRequest } from '../middlewares'
 import { productsController } from '../controllers'
 import { productRepository } from '../repositories'
+import { validateGUID } from '../utils'
 
 const router = express.Router({ mergeParams: true })
 
@@ -33,6 +34,19 @@ router.get(
     },
   }),
   productsController.getAll,
+)
+
+router.get(
+  '/:id',
+  routeFound,
+  validateRequest({
+    id: {
+      in: ['params'],
+      notEmpty: true,
+      custom: validateGUID(),
+    },
+  }),
+  productsController.getOne,
 )
 
 export default router

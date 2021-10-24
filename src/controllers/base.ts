@@ -26,4 +26,5 @@ export abstract class BaseController implements IController {
   }
 
   public abstract getAll(req: Request, res: Response, next: NextFunction): Promise<void | never>
+  public abstract getOne(req: Request, res: Response, next: NextFunction): Promise<void | never>
 }
