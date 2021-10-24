@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { BaseController } from './base'
 import { BadRequest, Ok } from '../constants'
-import { IModel } from '../models/contract'
+import { IModel, ProductCreationAttrs } from '../models'
 import {
   GetProductsParameters,
   CreateProductParameters,
@@ -10,8 +10,8 @@ import {
 } from '../parameters/products'
 import { IRepository } from '../repositories/contract'
 import { GUID } from '../types/guid'
-import { ProductCreationAttrs } from '../models/product'
-import { mapData } from '../utils'
+import { mapData, logger } from '../utils'
+import { NotFoundError } from '../errors'
 
 export class ProductsController extends BaseController {
   constructor(repo?: IRepository<IModel<number, GUID>>) {
@@ -23,16 +23,20 @@ export class ProductsController extends BaseController {
       const repo = this.getRepository()
       const { name, limit, offset } = req.query as unknown as GetProductsParameters
       if (name) {
-        res.data = await repo.getAllByName(limit, offset, name)
+        res.data = {
+          Items: await repo.getAllByName(limit, offset, name),
+        }
         res.code = Ok
       } else {
-        res.data = await repo.getAll(limit, offset)
+        res.data = {
+          Items: await repo.getAll(limit, offset),
+        }
         res.code = Ok
       }
 
       next()
     } catch (error) {
-      console.error('err ==', error)
+      logger(error)
       res.code = BadRequest
       throw error
     }
@@ -42,11 +46,15 @@ export class ProductsController extends BaseController {
     try {
       const repo = this.getRepository()
       const { guid } = req.params as unknown as GetProductByIdParameter
-      res.data = await repo.getOne(guid)
+      const product = await repo.getOne(guid)
+      if (!product) {
+        throw new NotFoundError('Product has not been not found')
+      }
+      res.data = product
       res.code = Ok
       next()
     } catch (error) {
-      console.error('err ==', error)
+      logger(error)
       res.code = BadRequest
       throw error
     }
@@ -63,7 +71,7 @@ export class ProductsController extends BaseController {
       res.code = Ok
       next()
     } catch (error) {
-      console.error('err ==', error)
+      logger(error)
       res.code = BadRequest
       throw error
     }
@@ -78,7 +86,7 @@ export class ProductsController extends BaseController {
       res.code = Ok
       next()
     } catch (error) {
-      console.error('err ==', error)
+      logger(error)
       res.code = BadRequest
       throw error
     }

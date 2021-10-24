@@ -1,3 +1,6 @@
+export * from './contract'
+export * from './product'
+
 import { belongsTo, hasMany, Instance } from '../utils'
 import { ProductModel } from './product'
 import { ProductOptionModel } from './product-option'
