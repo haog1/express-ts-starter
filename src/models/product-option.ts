@@ -4,7 +4,7 @@ import { initModelFields, sequelize } from '../utils'
 import { BaseModel } from './base'
 import { DefaultHiddenFields, IModel } from '.'
 
-interface ProductOptionAttrs extends IModel<number, GUID> {
+export interface ProductOptionAttrs extends IModel<number, GUID> {
   Name: string
   Description: string
   ProductId: GUID

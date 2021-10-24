@@ -1,13 +1,13 @@
 import { Op, Optional } from 'sequelize'
 import { DefaultHiddenFields } from '../models'
-import { ProductAttrs, ProductCreationAttrs, Product } from '../models/product'
+import { ProductOptionAttrs, ProductOptionCreationAttrs, ProductOption } from '../models/product-option'
 import { GUID } from '../types/guid'
 import { sequelize, generateId } from '../utils'
 import { BaseRepository } from './base'
 
-export class ProductsRepository extends BaseRepository {
-  async getAllByName<Product>(offset: number = 0, limit: number = 5, name: string): Promise<Product[]> {
-    const products = await Product.findAll({
+export class ProductOptionOptionsRepository extends BaseRepository {
+  async getAllByName<ProductOption>(offset: number = 0, limit: number = 5, name: string): Promise<ProductOption[]> {
+    const productOptions = await ProductOption.findAll({
       attributes: {
         include: [['guid', 'Id']],
         exclude: ['Id', 'Guid', 'IsDeleted'],
@@ -24,11 +24,11 @@ export class ProductsRepository extends BaseRepository {
       raw: true,
     })
 
-    return products.map((product: Partial<ProductAttrs>) => product as Product)
+    return productOptions.map((ProductOption: Partial<ProductOptionAttrs>) => ProductOption as ProductOption)
   }
 
-  async getAll<Product>(offset: number = 0, limit: number = 5): Promise<Product[]> {
-    const products = await Product.findAll({
+  async getAll<ProductOption>(offset: number = 0, limit: number = 5): Promise<ProductOption[]> {
+    const productOptions = await ProductOption.findAll({
       attributes: {
         include: [['guid', 'Id']],
         exclude: ['Id', 'Guid', 'IsDeleted'],
@@ -41,11 +41,11 @@ export class ProductsRepository extends BaseRepository {
       order: [['id', 'desc']],
       raw: true,
     })
-    return products.map((product: Partial<ProductAttrs>) => product as Product)
+    return productOptions.map((ProductOption: Partial<ProductOptionAttrs>) => ProductOption as ProductOption)
   }
 
-  async getOne<Product>(guid: GUID): Promise<Product | null> {
-    return (await Product.findOne({
+  async getOne<ProductOption>(guid: GUID): Promise<ProductOption | null> {
+    return (await ProductOption.findOne({
       attributes: {
         include: [['guid', 'Id']],
         exclude: ['Id', 'Guid', 'IsDeleted'],
@@ -55,19 +55,19 @@ export class ProductsRepository extends BaseRepository {
         IsDeleted: false,
       },
       raw: true,
-    })) as Partial<ProductAttrs> as Product
+    })) as Partial<ProductOptionAttrs> as ProductOption
   }
 
-  async create<ProductCreationAttrs>(entity: ProductCreationAttrs): Promise<GUID | null> {
+  async create<ProductOptionCreationAttrs>(entity: ProductOptionCreationAttrs): Promise<GUID | null> {
     const transaction = await sequelize.transaction()
     try {
       const Guid = generateId()
-      await Product.create(
+      await ProductOption.create(
         {
           ...entity,
           Guid,
           IsDeleted: false,
-        } as unknown as Optional<ProductAttrs, DefaultHiddenFields>,
+        } as unknown as Optional<ProductOptionAttrs, DefaultHiddenFields>,
         { transaction },
       )
       await transaction.commit()
@@ -78,13 +78,13 @@ export class ProductsRepository extends BaseRepository {
     }
   }
 
-  async updateOne<ProductCreationAttrs>(guid: GUID, entity: ProductCreationAttrs): Promise<GUID | null> {
-    const product = await this.getOne(guid)
-    if (!product) return null
+  async updateOne<ProductOptionCreationAttrs>(guid: GUID, entity: ProductOptionCreationAttrs): Promise<GUID | null> {
+    const productOption = await this.getOne(guid)
+    if (!productOption) return null
     const transaction = await sequelize.transaction()
     try {
       const Guid = generateId()
-      await Product.update(
+      await ProductOption.update(
         {
           ...entity,
         },
@@ -105,21 +105,21 @@ export class ProductsRepository extends BaseRepository {
   }
 
   async delete(guid: string, force?: boolean): Promise<boolean> {
-    const product = await this.getOne(guid)
-    if (!product) return false
+    const productOption = await this.getOne(guid)
+    if (!productOption) return false
     const transaction = await sequelize.transaction()
 
     try {
       let res
       if (force) {
-        res = await Product.destroy({
+        res = await ProductOption.destroy({
           where: {
             Guid: guid,
           },
           transaction,
         })
       } else {
-        res = await Product.update(
+        res = await ProductOption.update(
           {
             IsDeleted: true,
           },
