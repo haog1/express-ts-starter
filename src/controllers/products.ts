@@ -74,6 +74,10 @@ export class ProductsController extends BaseController {
   updateOne = async (req: Request, res: Response, next: NextFunction): Promise<void | never> => {
     try {
       const repo = this.getRepository()
+      const product = await repo.getOne(req.params.guid)
+      if (!product) {
+        throw new NotFoundError('Product has not been not found')
+      }
       const updateproductParameters = mapData<ProductCreationAttrs, CreateProductParameters>(req.body)
       const Id = await repo.updateOne(req.params.guid, updateproductParameters)
       res.data = { Id }
@@ -89,6 +93,10 @@ export class ProductsController extends BaseController {
   delete = async (req: Request, res: Response, next: NextFunction): Promise<void | never> => {
     try {
       const repo = this.getRepository()
+      const product = await repo.getOne(req.params.guid)
+      if (!product) {
+        throw new NotFoundError('Product has not been not found or has already been deleted')
+      }
       const { force } = req.query as unknown as RemoveProductParameter
       res.data = await repo.delete(req.params.guid, force)
       res.code = Ok

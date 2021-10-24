@@ -127,10 +127,12 @@ export class ProductsRepository extends BaseRepository {
             transaction,
           },
         )
+        console.log('== IsDeleted', res)
       }
 
       if (!res) return false
       if (typeof res === 'object' && !res[0]) return false
+
       await transaction.commit()
       return true
     } catch (error) {
