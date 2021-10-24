@@ -8,4 +8,5 @@ interface IController {
   getAll(req: Request, res: Response, next: NextFunction): Promise<void | never>
   getOne(req: Request, res: Response, next: NextFunction): Promise<void | never>
   create(req: Request, res: Response, next: NextFunction): Promise<void | never>
+  delete(req: Request, res: Response, next: NextFunction): Promise<void | never>
 }

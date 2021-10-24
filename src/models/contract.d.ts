@@ -1,7 +1,7 @@
 export interface IModel<T, U> {
   Id: T
   Guid: U
-  IsDeleted: boolean
+  IsDeleted: Boolean
 }
 
 export type DefaultHiddenFields = 'Id' | 'Guid' | 'IsDeleted'

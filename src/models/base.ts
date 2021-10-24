@@ -8,7 +8,7 @@ abstract class BaseModel<T extends IModel<number, GUID>, U extends {} = T>
 {
   public Id!: number
   public Guid!: GUID
-  public IsDeleted: boolean = false
+  public IsDeleted!: boolean
 }
 
 export { BaseModel }

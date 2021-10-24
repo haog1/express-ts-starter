@@ -87,4 +87,24 @@ router.get(
   productsController.getOne,
 )
 
+router.delete(
+  '/:guid',
+  routeFound,
+  validateRequest({
+    guid: {
+      in: ['params'],
+      notEmpty: true,
+      custom: validateGUID(),
+    },
+    force: {
+      in: ['query'],
+      notEmpty: true,
+      optional: true,
+      isBoolean: true,
+      toBoolean: true,
+    },
+  }),
+  productsController.delete,
+)
+
 export default router

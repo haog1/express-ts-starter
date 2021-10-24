@@ -16,6 +16,7 @@ export class ProductsRepository extends BaseRepository {
           [Op.iLike]: `%${name}%`,
         },
       },
+      order: [['id', 'desc']],
       limit,
       offset,
       raw: true,
@@ -34,6 +35,7 @@ export class ProductsRepository extends BaseRepository {
       },
       limit,
       offset,
+      order: [['id', 'desc']],
       raw: true,
     })
     return products.map((product: Partial<ProductAttrs>) => product as ProductModel)
@@ -58,9 +60,9 @@ export class ProductsRepository extends BaseRepository {
       const Guid = generateId()
       await ProductModel.create(
         {
+          ...entity,
           Guid,
           IsDeleted: false,
-          ...entity,
         },
         { transaction },
       )
@@ -69,6 +71,45 @@ export class ProductsRepository extends BaseRepository {
     } catch (error) {
       await transaction.rollback()
       return null
+    }
+  }
+
+  async delete(guid: string, force?: boolean): Promise<boolean> {
+    const product = await this.getOne(guid)
+    if (!product) return false
+    const transaction = await sequelize.transaction()
+
+    try {
+      let res
+      if (force) {
+        res = await ProductModel.destroy({
+          where: {
+            Guid: guid,
+          },
+          transaction,
+        })
+      } else {
+        res = await ProductModel.update(
+          {
+            IsDeleted: true,
+          },
+          {
+            where: {
+              Guid: guid,
+              IsDeleted: false,
+            },
+            transaction,
+          },
+        )
+      }
+
+      if (!res) return false
+      if (typeof res === 'object' && !res[0]) return false
+      await transaction.commit()
+      return true
+    } catch (error) {
+      await transaction.rollback()
+      return false
     }
   }
 }
