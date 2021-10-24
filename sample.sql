@@ -3,7 +3,8 @@ DROP TABLE IF EXISTS "product-options";
 DROP TABLE IF EXISTS products;
 
 CREATE TABLE products (
-  guid VARCHAR(36) PRIMARY KEY,
+  id SERIAL NOT NULL,
+  guid VARCHAR(36) UNIQUE PRIMARY KEY NOT NULL,
   name  VARCHAR(255) null,
   description VARCHAR(255) null,
   price decimal null,
@@ -13,7 +14,8 @@ CREATE TABLE products (
 );
 
 CREATE TABLE "product-options" (
-  guid VARCHAR(36) PRIMARY KEY,
+  id SERIAL NOT NULL,
+  guid VARCHAR(36) unique PRIMARY KEY,
   product_id VARCHAR(36),
   name  VARCHAR(255) null,
   description VARCHAR(255) null,

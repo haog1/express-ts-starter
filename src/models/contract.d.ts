@@ -1,10 +1,7 @@
 export interface IModel<T> {
-  Id: T
+  Id: number
+  Guid: T
   IsDeleted: boolean
 }
 
-export interface IBaseReturnAttrs<T> {
-  Id?: T
-}
-
-export type DefaultHiddenFields = 'Id' | 'IsDeleted'
+export type DefaultHiddenFields = 'Id' | 'Guid' | 'IsDeleted'

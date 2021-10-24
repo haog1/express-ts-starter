@@ -14,7 +14,7 @@ describe('/products collection', () => {
     ProductModel.findAll = jest.fn().mockImplementation(() => {
       return [
         {
-          Id: '01234567-89ab-cdef-0123-456789abcdef',
+          Guid: '01234567-89ab-cdef-0123-456789abcdef',
           Name: 'Product name',
           Description: 'Product description',
           Price: 123.45,
@@ -28,7 +28,7 @@ describe('/products collection', () => {
     expect(success).toBe(true)
     expect(data).toEqual([
       {
-        Id: '01234567-89ab-cdef-0123-456789abcdef',
+        Guid: '01234567-89ab-cdef-0123-456789abcdef',
         Name: 'Product name',
         Description: 'Product description',
         Price: 123.45,

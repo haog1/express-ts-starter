@@ -11,6 +11,11 @@ export function generateId(): GUID {
 export const initModelFields = (fields: ModelAttributes): ModelAttributes => {
   const defaultFields = {
     Id: {
+      autoIncrement: true,
+      type: DataTypes.NUMBER,
+      field: 'id',
+    },
+    Guid: {
       primaryKey: true,
       type: DataTypes.STRING,
       field: 'guid',

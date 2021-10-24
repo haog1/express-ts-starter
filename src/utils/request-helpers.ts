@@ -1,6 +1,5 @@
 import { Optional } from 'sequelize'
 import { GUID_LENGTH } from '../constants'
-import { BaseModel } from '../models/base'
 import { DefaultHiddenFields, IModel } from '../models/contract'
 import { BaseParameter } from '../parameters'
 import { GUID } from '../types/guid'

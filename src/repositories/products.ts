@@ -8,7 +8,7 @@ export class ProductsRepository extends BaseRepository {
   async getAllByName<ProductModel>(offset: number = 0, limit: number = 5, name: string): Promise<ProductModel[]> {
     const products = await ProductModel.findAll({
       attributes: {
-        exclude: ['IsDeleted'],
+        exclude: ['Id', 'IsDeleted'],
       },
       where: {
         IsDeleted: false,
@@ -27,7 +27,7 @@ export class ProductsRepository extends BaseRepository {
   async getAll<ProductModel>(offset: number = 0, limit: number = 5): Promise<ProductModel[]> {
     const products = await ProductModel.findAll({
       attributes: {
-        exclude: ['IsDeleted'],
+        exclude: ['Id', 'IsDeleted'],
       },
       where: {
         IsDeleted: false,
@@ -40,23 +40,32 @@ export class ProductsRepository extends BaseRepository {
   }
 
   async getOne<ProductModel>(id: GUID): Promise<ProductModel | null> {
-    return (await ProductModel.findByPk(id)) as Partial<ProductAttrs> as ProductModel
+    return (await ProductModel.findOne({
+      attributes: {
+        exclude: ['Id', 'IsDeleted'],
+      },
+      where: {
+        Guid: id,
+        IsDeleted: false,
+      },
+      raw: true,
+    })) as Partial<ProductAttrs> as ProductModel
   }
 
   async create(entity: ProductCreationAttrs): Promise<GUID | null> {
     const transaction = await sequelize.transaction()
     try {
-      const Id = generateId()
+      const Guid = generateId()
       await ProductModel.create(
         {
-          Id,
+          Guid,
           IsDeleted: false,
           ...entity,
         },
         { transaction },
       )
       await transaction.commit()
-      return Id
+      return Guid
     } catch (error) {
       await transaction.rollback()
       return null
