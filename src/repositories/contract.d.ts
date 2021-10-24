@@ -8,5 +8,6 @@ export interface IRepository<T extends IModel<number, GUID>> {
   getAllByName<M extends Model>(offset: number, limit: number, name: string): Promise<M[]>
   getOne<M extends Model>(guid: GUID): Promise<M | null>
   create(entity: ProductCreationAttrs): Promise<GUID | null>
+  updateOne(guid: GUID, entity: ProductCreationAttrs): Promise<GUID | null>
   delete(guid: GUID, force?: boolean): Promise<boolean>
 }

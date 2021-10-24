@@ -74,6 +74,32 @@ export class ProductsRepository extends BaseRepository {
     }
   }
 
+  async updateOne(guid: GUID, entity: ProductCreationAttrs): Promise<GUID | null> {
+    const product = await this.getOne(guid)
+    if (!product) return null
+    const transaction = await sequelize.transaction()
+    try {
+      const Guid = generateId()
+      await ProductModel.update(
+        {
+          ...entity,
+        },
+        {
+          where: {
+            Guid: guid,
+            IsDeleted: false,
+          },
+          transaction,
+        },
+      )
+      await transaction.commit()
+      return Guid
+    } catch (error) {
+      await transaction.rollback()
+      return null
+    }
+  }
+
   async delete(guid: string, force?: boolean): Promise<boolean> {
     const product = await this.getOne(guid)
     if (!product) return false

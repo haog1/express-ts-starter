@@ -26,14 +26,16 @@ describe('/products collection', () => {
     const { data, success } = response.body
     expect(ProductModel.findAll).toHaveBeenCalled()
     expect(success).toBe(true)
-    expect(data).toEqual([
-      {
-        Guid: '01234567-89ab-cdef-0123-456789abcdef',
-        Name: 'Product name',
-        Description: 'Product description',
-        Price: 123.45,
-        DeliveryPrice: 12.34,
-      },
-    ])
+    expect(data).toEqual({
+      Items: [
+        {
+          Guid: '01234567-89ab-cdef-0123-456789abcdef',
+          Name: 'Product name',
+          Description: 'Product description',
+          Price: 123.45,
+          DeliveryPrice: 12.34,
+        },
+      ],
+    })
   })
 })

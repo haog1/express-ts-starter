@@ -87,6 +87,51 @@ router.get(
   productsController.getOne,
 )
 
+router.patch(
+  '/:guid',
+  routeFound,
+  validateRequest({
+    guid: {
+      in: ['params'],
+      notEmpty: true,
+      custom: validateGUID(),
+    },
+    name: {
+      in: ['body'],
+      notEmpty: true,
+      optional: true,
+    },
+    description: {
+      in: ['body'],
+      notEmpty: true,
+      optional: true,
+    },
+    price: {
+      in: ['body'],
+      notEmpty: true,
+      optional: true,
+      isFloat: {
+        options: {
+          min: 0,
+        },
+      },
+      toFloat: true,
+    },
+    deliveryPrice: {
+      in: ['body'],
+      notEmpty: true,
+      optional: true,
+      isFloat: {
+        options: {
+          min: 0,
+        },
+      },
+      toFloat: true,
+    },
+  }),
+  productsController.updateOne,
+)
+
 router.delete(
   '/:guid',
   routeFound,
