@@ -1,16 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
-import { BaseController } from '.'
+import { BaseController } from './base'
 import { BadRequest, Ok } from '../constants'
 import { NoRepositoryError } from '../errors'
 import { IModel } from '../models/contract'
+import { GetProductsParameters } from '../parameters/products'
 import { IRepository } from '../repositories/contract'
 import { GUID } from '../types/guid'
-
-interface GetProductsParameters {
-  name?: string
-  offset: number
-  limit: number
-}
 
 export class ProductsController extends BaseController {
   constructor(repo?: IRepository<IModel<GUID>>) {
@@ -33,7 +28,7 @@ export class ProductsController extends BaseController {
 
       next()
     } catch (error) {
-      console.error('err = ', error)
+      console.error('err ==', error)
       res.code = BadRequest
       throw error
     }
