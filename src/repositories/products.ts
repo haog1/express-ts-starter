@@ -1,4 +1,4 @@
-import { Op, Optional } from 'sequelize'
+import { Model, Op, Optional } from 'sequelize'
 import { IProductsRepository } from '.'
 import { DefaultHiddenFields } from '../models'
 import { ProductAttrs, Product } from '../models/product'
@@ -7,7 +7,7 @@ import { sequelize, generateId } from '../utils'
 import { BaseRepository } from './base'
 
 export class ProductsRepository extends BaseRepository implements IProductsRepository {
-  async getAllByName<Product>(offset: number = 0, limit: number = 5, name: string): Promise<Product[]> {
+  async getAllByName<Product>(offset: number, limit: number, name: string): Promise<Product[]> {
     const products = await Product.findAll({
       attributes: {
         include: [['guid', 'Id']],

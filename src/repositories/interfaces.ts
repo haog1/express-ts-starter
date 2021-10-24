@@ -10,6 +10,6 @@ export interface IRepository {
   delete(guid: GUID, force?: boolean): Promise<boolean>
 }
 
-export interface IProductsRepository {
+export interface IProductsRepository extends IRepository {
   getAllByName<M extends Model>(offset: number, limit: number, name: string): Promise<M[]>
 }

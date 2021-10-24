@@ -1,27 +1,25 @@
 import { Request, Response, NextFunction } from 'express'
 import { NoRepositoryError } from '../errors'
-import { IModel } from '../models'
 import { IRepository } from '../repositories'
-import { GUID } from '../types/guid'
 import { IController } from '.'
 
-export abstract class BaseController implements IController {
-  protected _repository?: IRepository
+export abstract class BaseController<T extends IRepository> implements IController {
+  protected _repository?: T
 
-  constructor(repo?: IRepository) {
+  constructor(repo?: T) {
     if (repo) {
       this._repository = repo
     }
   }
 
-  getRepository(): IRepository {
+  getRepository(): T {
     if (!this._repository) {
       throw new NoRepositoryError()
     }
     return this._repository
   }
 
-  public setRepository(repo: IRepository): void {
+  public setRepository(repo: T): void {
     this._repository = repo
   }
 

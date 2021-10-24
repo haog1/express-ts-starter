@@ -3,12 +3,12 @@ import { BaseController } from './base'
 import { BadRequest, Ok } from '../constants'
 import { ProductCreationAttrs } from '../models'
 import { GetProductsParameters, CreateProductParameters, RemoveProductParameter } from '../parameters/products'
-import { IRepository } from '../repositories'
+import { IProductsRepository } from '../repositories'
 import { mapData, logger } from '../utils'
 import { NotFoundError } from '../errors'
 
-export class ProductsController extends BaseController {
-  constructor(repo?: IRepository) {
+export class ProductsController extends BaseController<IProductsRepository> {
+  constructor(repo?: IProductsRepository) {
     super(repo)
   }
 
