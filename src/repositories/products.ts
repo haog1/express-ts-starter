@@ -47,11 +47,14 @@ export class ProductsRepository extends BaseRepository {
     const transaction = await sequelize.transaction()
     try {
       const Id = generateId()
-      await ProductModel.create({
-        Id,
-        IsDeleted: false,
-        ...entity,
-      })
+      await ProductModel.create(
+        {
+          Id,
+          IsDeleted: false,
+          ...entity,
+        },
+        { transaction },
+      )
       await transaction.commit()
       return Id
     } catch (error) {

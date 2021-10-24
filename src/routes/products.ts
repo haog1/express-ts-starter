@@ -42,15 +42,15 @@ router.post(
   routeFound,
   // authMiddleware, /* if auth is required */
   validateRequest({
-    Name: {
+    name: {
       in: ['body'],
       notEmpty: true,
     },
-    Description: {
+    description: {
       in: ['body'],
       notEmpty: true,
     },
-    Price: {
+    price: {
       in: ['body'],
       notEmpty: true,
       isFloat: {
@@ -60,7 +60,7 @@ router.post(
       },
       toFloat: true,
     },
-    DeliveryPrice: {
+    deliveryPrice: {
       in: ['body'],
       notEmpty: true,
       isFloat: {

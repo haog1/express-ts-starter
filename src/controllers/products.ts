@@ -5,6 +5,8 @@ import { IModel } from '../models/contract'
 import { GetProductByIdParameter, GetProductsParameters, CreateProductParameters } from '../parameters/products'
 import { IRepository } from '../repositories/contract'
 import { GUID } from '../types/guid'
+import { ProductCreationAttrs } from '../models/product'
+import { mapData } from '../utils'
 
 export class ProductsController extends BaseController {
   constructor(repo?: IRepository<IModel<GUID>>) {
@@ -48,8 +50,13 @@ export class ProductsController extends BaseController {
   create = async (req: Request, res: Response, next: NextFunction): Promise<void | never> => {
     try {
       const repo = this.getRepository()
-      const createProductParameters = req.params as unknown as CreateProductParameters
-      res.data = await repo.create(...createProductParameters)
+      const createProductParameters = mapData<ProductCreationAttrs, CreateProductParameters>(
+        req.body as unknown as CreateProductParameters,
+      )
+      const Id = await repo.create(createProductParameters)
+      res.data = {
+        Id,
+      }
       res.code = Ok
       next()
     } catch (error) {
