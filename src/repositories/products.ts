@@ -1,13 +1,13 @@
 import { Op, Optional } from 'sequelize'
 import { DefaultHiddenFields } from '../models'
-import { ProductAttrs, ProductCreationAttrs, ProductModel } from '../models/product'
+import { ProductAttrs, ProductCreationAttrs, Product } from '../models/product'
 import { GUID } from '../types/guid'
 import { sequelize, generateId } from '../utils'
 import { BaseRepository } from './base'
 
 export class ProductsRepository extends BaseRepository {
-  async getAllByName<ProductModel>(offset: number = 0, limit: number = 5, name: string): Promise<ProductModel[]> {
-    const products = await ProductModel.findAll({
+  async getAllByName<Product>(offset: number = 0, limit: number = 5, name: string): Promise<Product[]> {
+    const products = await Product.findAll({
       attributes: {
         include: [['guid', 'Id']],
         exclude: ['Id', 'Guid', 'IsDeleted'],
@@ -24,11 +24,11 @@ export class ProductsRepository extends BaseRepository {
       raw: true,
     })
 
-    return products.map((product: Partial<ProductAttrs>) => product as ProductModel)
+    return products.map((product: Partial<ProductAttrs>) => product as Product)
   }
 
-  async getAll<ProductModel>(offset: number = 0, limit: number = 5): Promise<ProductModel[]> {
-    const products = await ProductModel.findAll({
+  async getAll<Product>(offset: number = 0, limit: number = 5): Promise<Product[]> {
+    const products = await Product.findAll({
       attributes: {
         include: [['guid', 'Id']],
         exclude: ['Id', 'Guid', 'IsDeleted'],
@@ -41,11 +41,11 @@ export class ProductsRepository extends BaseRepository {
       order: [['id', 'desc']],
       raw: true,
     })
-    return products.map((product: Partial<ProductAttrs>) => product as ProductModel)
+    return products.map((product: Partial<ProductAttrs>) => product as Product)
   }
 
-  async getOne<ProductModel>(guid: GUID): Promise<ProductModel | null> {
-    return (await ProductModel.findOne({
+  async getOne<Product>(guid: GUID): Promise<Product | null> {
+    return (await Product.findOne({
       attributes: {
         include: [['guid', 'Id']],
         exclude: ['Id', 'Guid', 'IsDeleted'],
@@ -55,7 +55,7 @@ export class ProductsRepository extends BaseRepository {
         IsDeleted: false,
       },
       raw: true,
-    })) as Partial<ProductAttrs> as ProductModel
+    })) as Partial<ProductAttrs> as Product
   }
 
   async create<ProductCreationAttrs>(entity: ProductCreationAttrs): Promise<GUID | null> {
@@ -67,7 +67,7 @@ export class ProductsRepository extends BaseRepository {
         Guid,
         IsDeleted: false,
       } as unknown as Optional<ProductAttrs, DefaultHiddenFields>
-      await ProductModel.create(toCreate, { transaction })
+      await Product.create(toCreate, { transaction })
       await transaction.commit()
       return Guid
     } catch (error) {
@@ -82,7 +82,7 @@ export class ProductsRepository extends BaseRepository {
     const transaction = await sequelize.transaction()
     try {
       const Guid = generateId()
-      await ProductModel.update(
+      await Product.update(
         {
           ...entity,
         },
@@ -110,14 +110,14 @@ export class ProductsRepository extends BaseRepository {
     try {
       let res
       if (force) {
-        res = await ProductModel.destroy({
+        res = await Product.destroy({
           where: {
             Guid: guid,
           },
           transaction,
         })
       } else {
-        res = await ProductModel.update(
+        res = await Product.update(
           {
             IsDeleted: true,
           },

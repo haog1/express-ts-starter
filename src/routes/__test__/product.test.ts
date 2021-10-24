@@ -1,7 +1,7 @@
 import supertest from 'supertest'
 import app from '../../app'
 import { Ok } from '../../constants'
-import { ProductModel } from '../../models/product'
+import { Product } from '../../models/product'
 
 jest.mock('../../models/product')
 
@@ -11,7 +11,7 @@ describe('/products collection', () => {
   })
 
   test('it can get list of products', async () => {
-    ProductModel.findAll = jest.fn().mockImplementation(() => {
+    Product.findAll = jest.fn().mockImplementation(() => {
       return [
         {
           Guid: '01234567-89ab-cdef-0123-456789abcdef',
@@ -24,7 +24,7 @@ describe('/products collection', () => {
     })
     const response = await supertest(app).get('/api/products').send({}).expect(Ok)
     const { data, success } = response.body
-    expect(ProductModel.findAll).toHaveBeenCalled()
+    expect(Product.findAll).toHaveBeenCalled()
     expect(success).toBe(true)
     expect(data).toEqual({
       Items: [
