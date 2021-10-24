@@ -1,10 +1,11 @@
 import express from 'express'
 import { routeFound, validateRequest } from '../middlewares'
-import { injectRepository } from '../utils'
 import { productsController } from '../controllers'
 import { productRepository } from '../repositories'
 
 const router = express.Router({ mergeParams: true })
+
+productsController.setRepository(productRepository) // inject singleton dependency
 
 router.get(
   '/',
@@ -31,7 +32,6 @@ router.get(
       optional: true,
     },
   }),
-  injectRepository(productsController, productRepository),
   productsController.getAll,
 )
 
