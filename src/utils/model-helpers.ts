@@ -1,7 +1,7 @@
 import { BelongsToOptions, HasOneOptions, HasManyOptions, DataTypes, ModelAttributes } from 'sequelize'
 import { v4 as uuidv4 } from 'uuid'
 import { BaseModel } from '../models/base'
-import { IModel } from '../models/contract'
+import { IModel } from '../models'
 import { GUID } from '../types/guid'
 
 export function generateId(): GUID {

@@ -1,6 +1,5 @@
 import { Model } from 'sequelize'
-import { IModel } from '../models/contract'
-import { ProductCreationAttrs } from '../models/product'
+import { IModel, ProductCreationAttrs } from '../models'
 import { GUID } from '../types/guid'
 
 export interface IRepository<T extends IModel<number, GUID>> {

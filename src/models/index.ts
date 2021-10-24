@@ -1,4 +1,4 @@
-export * from './contract'
+export * from './interfaces'
 export * from './product'
 
 import { belongsTo, hasMany, Instance } from '../utils'

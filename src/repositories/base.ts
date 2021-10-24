@@ -1,8 +1,7 @@
-import { IRepository } from './contract'
-import { IModel } from '../models/contract'
+import { IRepository } from '.'
+import { IModel, ProductCreationAttrs } from '../models'
 import { GUID } from '../types/guid'
 import { Model } from 'sequelize'
-import { ProductCreationAttrs } from '../models/product'
 
 export abstract class BaseRepository implements IRepository<IModel<number, GUID>> {
   abstract getAll<T extends Model>(offset: number, limit: number): Promise<T[]>

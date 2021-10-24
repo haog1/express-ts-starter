@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
-import { IModel } from '../models/contract'
-import { IRepository } from '../repositories/contract'
+import { IModel } from '../models/interfaces'
+import { IRepository } from '../repositories/interfaces'
 
-interface IController {
-  getRepository<T>(): IRepository<IModel<T>>
-  setRepository<T>(repo: IRepository<IModel<T>>): void
+export interface IController {
+  getRepository<T extends number, U extends string>(): IRepository<IModel<T, U>>
+  setRepository<T extends number, U extends string>(repo: IRepository<IModel<T, U>>): void
   getAll(req: Request, res: Response, next: NextFunction): Promise<void | never>
   getOne(req: Request, res: Response, next: NextFunction): Promise<void | never>
   create(req: Request, res: Response, next: NextFunction): Promise<void | never>

@@ -1,6 +1,6 @@
 import { Model } from 'sequelize'
 import { GUID } from '../types/guid'
-import { IModel } from './contract'
+import { IModel } from '.'
 
 abstract class BaseModel<T extends IModel<number, GUID>, U extends {} = T>
   extends Model<T, U>

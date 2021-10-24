@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express'
 import { NoRepositoryError } from '../errors'
-import { IModel } from '../models/contract'
-import { IRepository } from '../repositories/contract'
+import { IModel } from '../models'
+import { IRepository } from '../repositories'
 import { GUID } from '../types/guid'
-import { IController } from './contract'
+import { IController } from '.'
 
 export abstract class BaseController implements IController {
   protected _repository?: IRepository<IModel<number, GUID>>

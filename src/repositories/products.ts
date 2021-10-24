@@ -8,7 +8,8 @@ export class ProductsRepository extends BaseRepository {
   async getAllByName<ProductModel>(offset: number = 0, limit: number = 5, name: string): Promise<ProductModel[]> {
     const products = await ProductModel.findAll({
       attributes: {
-        exclude: ['Id', 'IsDeleted'],
+        include: [['guid', 'Id']],
+        exclude: ['Id', 'Guid', 'IsDeleted'],
       },
       where: {
         IsDeleted: false,
@@ -28,7 +29,8 @@ export class ProductsRepository extends BaseRepository {
   async getAll<ProductModel>(offset: number = 0, limit: number = 5): Promise<ProductModel[]> {
     const products = await ProductModel.findAll({
       attributes: {
-        exclude: ['Id', 'IsDeleted'],
+        include: [['guid', 'Id']],
+        exclude: ['Id', 'Guid', 'IsDeleted'],
       },
       where: {
         IsDeleted: false,
@@ -44,7 +46,8 @@ export class ProductsRepository extends BaseRepository {
   async getOne<ProductModel>(guid: GUID): Promise<ProductModel | null> {
     return (await ProductModel.findOne({
       attributes: {
-        exclude: ['Id', 'IsDeleted'],
+        include: [['guid', 'Id']],
+        exclude: ['Id', 'Guid', 'IsDeleted'],
       },
       where: {
         Guid: guid,
@@ -127,7 +130,6 @@ export class ProductsRepository extends BaseRepository {
             transaction,
           },
         )
-        console.log('== IsDeleted', res)
       }
 
       if (!res) return false
