@@ -39,13 +39,13 @@ export class ProductsRepository extends BaseRepository {
     return products.map((product: Partial<ProductAttrs>) => product as ProductModel)
   }
 
-  async getOne<ProductModel>(id: GUID): Promise<ProductModel | null> {
+  async getOne<ProductModel>(guid: GUID): Promise<ProductModel | null> {
     return (await ProductModel.findOne({
       attributes: {
         exclude: ['Id', 'IsDeleted'],
       },
       where: {
-        Guid: id,
+        Guid: guid,
         IsDeleted: false,
       },
       raw: true,

@@ -6,7 +6,7 @@ export interface GetProductsParameters extends PaginationParameters {
 }
 
 export interface GetProductByIdParameter extends BaseParameter {
-  id: GUID
+  guid: GUID
 }
 
 // shouldn't expose model attr structure to the public directly

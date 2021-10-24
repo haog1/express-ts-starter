@@ -31,7 +31,7 @@ export const initModelFields = (fields: ModelAttributes): ModelAttributes => {
   }
 }
 
-class Base<T extends IModel<GUID>, U> extends BaseModel<T, U> {} // model type convert purpose
+class Base<T extends IModel<number, GUID>, U> extends BaseModel<T, U> {} // model type convert purpose
 
 export type Instance = typeof Base
 

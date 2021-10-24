@@ -75,10 +75,10 @@ router.post(
 )
 
 router.get(
-  '/:id',
+  '/:guid',
   routeFound,
   validateRequest({
-    id: {
+    guid: {
       in: ['params'],
       notEmpty: true,
       custom: validateGUID(),

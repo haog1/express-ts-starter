@@ -1,6 +1,6 @@
-export interface IModel<T> {
-  Id: number
-  Guid: T
+export interface IModel<T, U> {
+  Id: T
+  Guid: U
   IsDeleted: boolean
 }
 

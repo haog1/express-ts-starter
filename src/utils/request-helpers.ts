@@ -13,7 +13,9 @@ export const validateGUID = () => {
   }
 }
 
-export const mapData = <T extends Optional<IModel<GUID>, DefaultHiddenFields>, C extends BaseParameter>(data: C): T => {
+export const mapData = <T extends Optional<IModel<number, GUID>, DefaultHiddenFields>, C extends BaseParameter>(
+  data: C,
+): T => {
   const returnData: { [key: string]: any } = {}
   for (const [key, val] of Object.entries(data)) {
     const convertedKey = key.charAt(0).toUpperCase() + key.slice(1)
