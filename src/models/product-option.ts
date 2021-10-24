@@ -8,7 +8,6 @@ interface ProductOptionAttrs extends IModel<number, GUID> {
   Name: string
   Description: string
   ProductId: GUID
-  IsNew: boolean
 }
 
 export interface ProductOptionCreationAttrs extends Optional<ProductOptionAttrs, DefaultHiddenFields> {}
@@ -20,7 +19,6 @@ class ProductOptionModel
   public ProductId!: GUID
   public Name!: string
   public Description!: string
-  public IsNew!: boolean
 }
 
 ProductOptionModel.init(
@@ -36,10 +34,6 @@ ProductOptionModel.init(
     Description: {
       type: DataTypes.STRING,
       field: 'description',
-    },
-    IsNew: {
-      type: DataTypes.STRING,
-      field: 'is_new',
     },
   }),
   {

@@ -9,7 +9,6 @@ export interface ProductAttrs extends IModel<number, GUID> {
   Description: string
   Price: number
   DeliveryPrice: number
-  IsNew: boolean
 }
 
 export interface ProductCreationAttrs extends Optional<ProductAttrs, DefaultHiddenFields> {}
@@ -19,7 +18,6 @@ class ProductModel extends BaseModel<ProductAttrs, ProductCreationAttrs> impleme
   public Description!: string
   public Price!: number
   public DeliveryPrice!: number
-  public IsNew!: boolean
 }
 
 ProductModel.init(
@@ -39,10 +37,6 @@ ProductModel.init(
     DeliveryPrice: {
       type: DataTypes.NUMBER,
       field: 'delivery_price',
-    },
-    IsNew: {
-      type: DataTypes.STRING,
-      field: 'is_new',
     },
   }),
   {
