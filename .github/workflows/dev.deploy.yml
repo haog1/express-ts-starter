@@ -17,3 +17,13 @@ jobs:
       run: yarn test
       env:
         APP_PORT: ${{ secrets.APP_PORT }}
+    # # Optional deployment step
+    # - name: Deploy Vendor
+    #   uses: burnett01/rsync-deployments@4.1
+    #   with:
+    #     switches: -avzr --delete --exclude="" --include="" --filter=""
+    #     path: /
+    #     remote_path: ${{ secrets.PATH }}
+    #     remote_host: ${{ secrets.HOST }}
+    #     remote_user: ${{ secrets.USER }}
+    #     remote_key: ${{ secrets.KEY }}

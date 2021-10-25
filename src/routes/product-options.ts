@@ -1,36 +1,24 @@
 import express from 'express'
+import { productOptionsContoller as controller } from '../controllers'
 import { routeFound, validateRequest } from '../middlewares'
-import { productsController as controller } from '../controllers'
-import { productsRepository } from '../repositories'
+import { productOptionsRepository, productsRepository } from '../repositories'
+
 import { validateGUID } from '../utils'
 
 const router = express.Router({ mergeParams: true })
 
-controller.setRepository(productsRepository) // inject singleton dependency
+controller.setRepository(productOptionsRepository) // inject singleton dependency
+controller.setSecondRepisotry(productsRepository) // inject second singleton dependency
 
 router.get(
   '/',
   routeFound,
-  // authMiddleware, /* if auth is required */
   validateRequest({
-    name: {
-      in: ['query'],
+    id: {
+      // id is from root route file
+      in: ['params'],
       notEmpty: true,
-      optional: true,
-    },
-    offset: {
-      in: ['query'],
-      isInt: true,
-      toInt: true,
-      notEmpty: true,
-      optional: true,
-    },
-    limit: {
-      in: ['query'],
-      isInt: true,
-      toInt: true,
-      notEmpty: true,
-      optional: true,
+      custom: validateGUID(),
     },
   }),
   controller.getAll,
@@ -39,8 +27,13 @@ router.get(
 router.post(
   '/',
   routeFound,
-  // authMiddleware, /* if auth is required */
   validateRequest({
+    id: {
+      // id is from root route file
+      in: ['params'],
+      notEmpty: true,
+      custom: validateGUID(),
+    },
     name: {
       in: ['body'],
       notEmpty: true,
@@ -49,35 +42,26 @@ router.post(
       in: ['body'],
       notEmpty: true,
     },
-    price: {
+    productId: {
       in: ['body'],
       notEmpty: true,
-      isFloat: {
-        options: {
-          min: 0,
-        },
-      },
-      toFloat: true,
-    },
-    deliveryPrice: {
-      in: ['body'],
-      notEmpty: true,
-      isFloat: {
-        options: {
-          min: 0,
-        },
-      },
-      toFloat: true,
+      custom: validateGUID(),
     },
   }),
   controller.create,
 )
 
 router.get(
-  '/:id',
+  '/:optionId',
   routeFound,
   validateRequest({
     id: {
+      // id is from root route file
+      in: ['params'],
+      notEmpty: true,
+      custom: validateGUID(),
+    },
+    optionId: {
       in: ['params'],
       notEmpty: true,
       custom: validateGUID(),
@@ -87,10 +71,15 @@ router.get(
 )
 
 router.patch(
-  '/:id',
+  '/:optionId',
   routeFound,
   validateRequest({
     id: {
+      in: ['params'],
+      notEmpty: true,
+      custom: validateGUID(),
+    },
+    optionId: {
       in: ['params'],
       notEmpty: true,
       custom: validateGUID(),
@@ -105,37 +94,20 @@ router.patch(
       notEmpty: true,
       optional: true,
     },
-    price: {
-      in: ['body'],
-      notEmpty: true,
-      optional: true,
-      isFloat: {
-        options: {
-          min: 0,
-        },
-      },
-      toFloat: true,
-    },
-    deliveryPrice: {
-      in: ['body'],
-      notEmpty: true,
-      optional: true,
-      isFloat: {
-        options: {
-          min: 0,
-        },
-      },
-      toFloat: true,
-    },
   }),
   controller.updateOne,
 )
 
 router.delete(
-  '/:id',
+  '/:optionId',
   routeFound,
   validateRequest({
     id: {
+      in: ['params'],
+      notEmpty: true,
+      custom: validateGUID(),
+    },
+    optionId: {
       in: ['params'],
       notEmpty: true,
       custom: validateGUID(),

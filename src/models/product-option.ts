@@ -4,7 +4,7 @@ import { initModelFields, sequelize } from '../utils'
 import { BaseModel } from './base'
 import { DefaultHiddenFields, IModel } from '.'
 
-interface ProductOptionAttrs extends IModel<number, GUID> {
+export interface ProductOptionAttrs extends IModel<number, GUID> {
   Name: string
   Description: string
   ProductId: GUID
@@ -12,16 +12,13 @@ interface ProductOptionAttrs extends IModel<number, GUID> {
 
 export interface ProductOptionCreationAttrs extends Optional<ProductOptionAttrs, DefaultHiddenFields> {}
 
-class ProductOptionModel
-  extends BaseModel<ProductOptionAttrs, ProductOptionCreationAttrs>
-  implements ProductOptionAttrs
-{
+class ProductOption extends BaseModel<ProductOptionAttrs, ProductOptionCreationAttrs> implements ProductOptionAttrs {
   public ProductId!: GUID
   public Name!: string
   public Description!: string
 }
 
-ProductOptionModel.init(
+ProductOption.init(
   initModelFields({
     ProductId: {
       type: DataTypes.STRING,
@@ -43,4 +40,4 @@ ProductOptionModel.init(
   },
 )
 
-export { ProductOptionModel }
+export { ProductOption }

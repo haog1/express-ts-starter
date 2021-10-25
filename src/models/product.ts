@@ -13,14 +13,14 @@ export interface ProductAttrs extends IModel<number, GUID> {
 
 export interface ProductCreationAttrs extends Optional<ProductAttrs, DefaultHiddenFields> {}
 
-class ProductModel extends BaseModel<ProductAttrs, ProductCreationAttrs> implements ProductAttrs {
+class Product extends BaseModel<ProductAttrs, ProductCreationAttrs> implements ProductAttrs {
   public Name!: string
   public Description!: string
   public Price!: number
   public DeliveryPrice!: number
 }
 
-ProductModel.init(
+Product.init(
   initModelFields({
     Name: {
       type: DataTypes.STRING,
@@ -46,4 +46,4 @@ ProductModel.init(
   },
 )
 
-export { ProductModel }
+export { Product }
