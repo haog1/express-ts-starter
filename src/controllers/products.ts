@@ -79,9 +79,10 @@ export class ProductsController extends BaseController<IProductsRepository> {
       if (!product) {
         throw new NotFoundError('Product has not been not found')
       }
-      const updateproductParameters = mapData<ProductCreationAttrs, CreateProductParameters>(req.body)
-      const Id = await repo.updateOne(req.params.id, updateproductParameters)
-      res.data = { Id }
+      const updateData = mapData<ProductCreationAttrs, CreateProductParameters>(req.body)
+      const { Id, Guid, IsDeleted, ...updateproductParameters } = updateData
+      const id = await repo.updateOne(req.params.id, updateproductParameters)
+      res.data = { Id: id }
       res.code = Ok
       next()
     } catch (error) {

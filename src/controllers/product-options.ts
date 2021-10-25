@@ -96,13 +96,16 @@ export class ProductOptionsController
   updateOne = async (req: Request, res: Response, next: NextFunction): Promise<void | never> => {
     try {
       const repo = this.getRepository()
-      const product = await repo.getOne(req.params.id)
+      const productRepo = this.getSecondRepisotry()
+      const product = await productRepo.getOne(req.params.id)
       if (!product) {
         throw new NotFoundError('Product has not been not found')
       }
-      const updateproductParameters = mapData<ProductOptionCreationAttrs, CreateProductOptionParameters>(req.body)
-      const Id = await repo.updateOne(req.params.id, updateproductParameters)
-      res.data = { Id }
+
+      const updateData = mapData<ProductOptionCreationAttrs, CreateProductOptionParameters>(req.body)
+      const { Id, Guid, IsDeleted, ProductId, ...updateproductOptionParameters } = updateData
+      const id = await repo.updateOne(req.params.optionId, updateproductOptionParameters)
+      res.data = { Id: id }
       res.code = Ok
       next()
     } catch (error) {

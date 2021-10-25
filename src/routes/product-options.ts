@@ -28,6 +28,12 @@ router.post(
   '/',
   routeFound,
   validateRequest({
+    id: {
+      // id is from root route file
+      in: ['params'],
+      notEmpty: true,
+      custom: validateGUID(),
+    },
     name: {
       in: ['body'],
       notEmpty: true,
@@ -49,6 +55,12 @@ router.get(
   '/:optionId',
   routeFound,
   validateRequest({
+    id: {
+      // id is from root route file
+      in: ['params'],
+      notEmpty: true,
+      custom: validateGUID(),
+    },
     optionId: {
       in: ['params'],
       notEmpty: true,
@@ -56,6 +68,34 @@ router.get(
     },
   }),
   controller.getOne,
+)
+
+router.patch(
+  '/:optionId',
+  routeFound,
+  validateRequest({
+    id: {
+      in: ['params'],
+      notEmpty: true,
+      custom: validateGUID(),
+    },
+    optionId: {
+      in: ['params'],
+      notEmpty: true,
+      custom: validateGUID(),
+    },
+    name: {
+      in: ['body'],
+      notEmpty: true,
+      optional: true,
+    },
+    description: {
+      in: ['body'],
+      notEmpty: true,
+      optional: true,
+    },
+  }),
+  controller.updateOne,
 )
 
 export default router
