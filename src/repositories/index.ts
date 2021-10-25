@@ -3,6 +3,6 @@ export * from './products'
 export * from './base'
 import { ProductsRepository } from './products'
 
-const productRepository = new ProductsRepository()
+const productsRepository = new ProductsRepository()
 
-export { productRepository }
+export { productsRepository }

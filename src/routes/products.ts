@@ -1,12 +1,12 @@
 import express from 'express'
 import { routeFound, validateRequest } from '../middlewares'
-import { productsController } from '../controllers'
-import { productRepository } from '../repositories'
+import { productsController as controller } from '../controllers'
+import { productsRepository } from '../repositories'
 import { validateGUID } from '../utils'
 
 const router = express.Router({ mergeParams: true })
 
-productsController.setRepository(productRepository) // inject singleton dependency
+controller.setRepository(productsRepository) // inject singleton dependency
 
 router.get(
   '/',
@@ -33,7 +33,7 @@ router.get(
       optional: true,
     },
   }),
-  productsController.getAll,
+  controller.getAll,
 )
 
 router.post(
@@ -70,7 +70,7 @@ router.post(
       toFloat: true,
     },
   }),
-  productsController.create,
+  controller.create,
 )
 
 router.get(
@@ -83,7 +83,7 @@ router.get(
       custom: validateGUID(),
     },
   }),
-  productsController.getOne,
+  controller.getOne,
 )
 
 router.patch(
@@ -128,7 +128,7 @@ router.patch(
       toFloat: true,
     },
   }),
-  productsController.updateOne,
+  controller.updateOne,
 )
 
 router.delete(
@@ -148,7 +148,7 @@ router.delete(
       toBoolean: true,
     },
   }),
-  productsController.delete,
+  controller.delete,
 )
 
 export default router

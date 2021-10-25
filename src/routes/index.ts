@@ -5,6 +5,6 @@ import products from './products'
 const rootRoute = express.Router()
 
 rootRoute.use('/products', products)
-rootRoute.use('/products/:guid/options', productOptions)
+rootRoute.use('/products/:id/options', productOptions)
 
 export default rootRoute
