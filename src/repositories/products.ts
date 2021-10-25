@@ -7,7 +7,7 @@ import { sequelize, generateId } from '../utils'
 import { BaseRepository } from './base'
 
 export class ProductsRepository extends BaseRepository implements IProductsRepository {
-  async getAllByName<Product>(offset: number, limit: number, name: string): Promise<Product[]> {
+  async getAllByName<Product>(limit: number, offset: number, name: string): Promise<Product[]> {
     const products = await Product.findAll({
       attributes: {
         include: [['guid', 'Id']],
@@ -29,7 +29,7 @@ export class ProductsRepository extends BaseRepository implements IProductsRepos
   }
 
   // Override default function
-  async getAll<Product>(offset: number = 0, limit: number = 5): Promise<Product[]> {
+  async getAll<Product>(limit: number = 5, offset: number = 0): Promise<Product[]> {
     const products = await Product.findAll({
       attributes: {
         include: [['guid', 'Id']],

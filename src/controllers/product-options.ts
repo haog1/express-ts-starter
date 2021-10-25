@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { BaseController } from './base'
 import { BadRequest, Ok } from '../constants'
 import { Product, ProductOptionCreationAttrs } from '../models'
-import { GetProductOptionsParameters, CreateProductOptionParameters, RemoveProductOptionParameter } from '../parameters'
+import { CreateProductOptionParameters, RemoveProductOptionParameter } from '../parameters'
 import { IProductOptionsRepository, IProductsRepository } from '../repositories'
 import { mapData, logger } from '../utils'
 import { NoRepositoryError, NotFoundError } from '../errors'
@@ -29,9 +29,11 @@ export class ProductOptionsController
   getAll = async (req: Request, res: Response, next: NextFunction): Promise<void | never> => {
     try {
       const repo = this.getRepository()
-      const { limit, offset } = req.query as unknown as GetProductOptionsParameters
+      const { limit, offset } = req.query
+      const size = limit ? +limit : 5
+      const toSkip = offset ? +offset : 0
       res.data = {
-        Items: await repo.getAll(req.params.id, limit, offset),
+        Items: await repo.getAll(req.params.id, size, toSkip),
       }
       res.code = Ok
       next()
@@ -45,11 +47,13 @@ export class ProductOptionsController
   getOne = async (req: Request, res: Response, next: NextFunction): Promise<void | never> => {
     try {
       const repo = this.getRepository()
-      const product = await repo.getOne(req.params.id)
+      const productRepo = this.getSecondRepisotry()
+      const product = await productRepo.getOne(req.params.id)
       if (!product) {
         throw new NotFoundError('Product has not been not found')
       }
-      res.data = product
+      const productOption = await repo.getOne(req.params.optionId, req.params.id)
+      res.data = productOption
       res.code = Ok
       next()
     } catch (error) {

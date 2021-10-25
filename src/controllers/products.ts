@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { BaseController } from './base'
 import { BadRequest, Ok } from '../constants'
 import { ProductCreationAttrs } from '../models'
-import { GetProductsParameters, CreateProductParameters, RemoveProductParameter } from '../parameters'
+import { CreateProductParameters, RemoveProductParameter } from '../parameters'
 import { IProductsRepository } from '../repositories'
 import { mapData, logger } from '../utils'
 import { NotFoundError } from '../errors'
@@ -15,15 +15,17 @@ export class ProductsController extends BaseController<IProductsRepository> {
   getAll = async (req: Request, res: Response, next: NextFunction): Promise<void | never> => {
     try {
       const repo = this.getRepository()
-      const { name, limit, offset } = req.query as unknown as GetProductsParameters
+      const { name, limit, offset } = req.query
+      const size = limit ? +limit : 5
+      const toSkip = offset ? +offset : 0
       if (name) {
         res.data = {
-          Items: await repo.getAllByName(limit, offset, name),
+          Items: await repo.getAllByName(size, toSkip, name.toString()),
         }
         res.code = Ok
       } else {
         res.data = {
-          Items: await repo.getAll(limit, offset),
+          Items: await repo.getAll(size, toSkip),
         }
         res.code = Ok
       }

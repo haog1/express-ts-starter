@@ -7,7 +7,7 @@ import { sequelize, generateId } from '../utils'
 import { BaseRepository } from './base'
 
 export class ProductOptionOptionsRepository extends BaseRepository implements IProductOptionsRepository {
-  async getAll<ProductOption>(productId: GUID, offset: number = 0, limit: number = 5): Promise<ProductOption[]> {
+  async getAll<ProductOption>(productId: GUID, limit: number = 5, offset: number = 0): Promise<ProductOption[]> {
     const productOptions = await ProductOption.findAll({
       attributes: {
         include: [['guid', 'Id']],
@@ -25,7 +25,7 @@ export class ProductOptionOptionsRepository extends BaseRepository implements IP
     return productOptions.map((ProductOption: Partial<ProductOptionAttrs>) => ProductOption as ProductOption)
   }
 
-  async getOne<ProductOption>(guid: GUID): Promise<ProductOption | null> {
+  async getOne<ProductOption>(guid: GUID, productId?: GUID): Promise<ProductOption | null> {
     return (await ProductOption.findOne({
       attributes: {
         include: [['guid', 'Id']],
@@ -33,6 +33,7 @@ export class ProductOptionOptionsRepository extends BaseRepository implements IP
       },
       where: {
         Guid: guid,
+        ...(productId ? { ProductId: productId } : {}),
         IsDeleted: false,
       },
       raw: true,

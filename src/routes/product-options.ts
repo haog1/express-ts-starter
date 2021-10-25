@@ -45,4 +45,17 @@ router.post(
   controller.create,
 )
 
+router.get(
+  '/:optionId',
+  routeFound,
+  validateRequest({
+    optionId: {
+      in: ['params'],
+      notEmpty: true,
+      custom: validateGUID(),
+    },
+  }),
+  controller.getOne,
+)
+
 export default router
