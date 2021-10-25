@@ -74,10 +74,10 @@ router.post(
 )
 
 router.get(
-  '/:guid',
+  '/:id',
   routeFound,
   validateRequest({
-    guid: {
+    id: {
       in: ['params'],
       notEmpty: true,
       custom: validateGUID(),
@@ -87,10 +87,10 @@ router.get(
 )
 
 router.patch(
-  '/:guid',
+  '/:id',
   routeFound,
   validateRequest({
-    guid: {
+    id: {
       in: ['params'],
       notEmpty: true,
       custom: validateGUID(),
@@ -132,10 +132,10 @@ router.patch(
 )
 
 router.delete(
-  '/:guid',
+  '/:id',
   routeFound,
   validateRequest({
-    guid: {
+    id: {
       in: ['params'],
       notEmpty: true,
       custom: validateGUID(),

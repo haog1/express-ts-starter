@@ -39,7 +39,7 @@ export class ProductsController extends BaseController<IProductsRepository> {
   getOne = async (req: Request, res: Response, next: NextFunction): Promise<void | never> => {
     try {
       const repo = this.getRepository()
-      const product = await repo.getOne(req.params.guid)
+      const product = await repo.getOne(req.params.id)
       if (!product) {
         throw new NotFoundError('Product has not been not found')
       }
@@ -73,12 +73,12 @@ export class ProductsController extends BaseController<IProductsRepository> {
   updateOne = async (req: Request, res: Response, next: NextFunction): Promise<void | never> => {
     try {
       const repo = this.getRepository()
-      const product = await repo.getOne(req.params.guid)
+      const product = await repo.getOne(req.params.id)
       if (!product) {
         throw new NotFoundError('Product has not been not found')
       }
       const updateproductParameters = mapData<ProductCreationAttrs, CreateProductParameters>(req.body)
-      const Id = await repo.updateOne(req.params.guid, updateproductParameters)
+      const Id = await repo.updateOne(req.params.id, updateproductParameters)
       res.data = { Id }
       res.code = Ok
       next()
@@ -92,12 +92,12 @@ export class ProductsController extends BaseController<IProductsRepository> {
   delete = async (req: Request, res: Response, next: NextFunction): Promise<void | never> => {
     try {
       const repo = this.getRepository()
-      const product = await repo.getOne(req.params.guid)
+      const product = await repo.getOne(req.params.id)
       if (!product) {
         throw new NotFoundError('Product has not been not found or has already been deleted')
       }
       const { force } = req.query as unknown as RemoveProductParameter
-      res.data = await repo.delete(req.params.guid, force)
+      res.data = await repo.delete(req.params.id, force)
       res.code = Ok
       next()
     } catch (error) {
