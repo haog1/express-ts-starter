@@ -28,6 +28,7 @@ export class ProductsRepository extends BaseRepository implements IProductsRepos
     return products.map((product: Partial<ProductAttrs>) => product as Product)
   }
 
+  // Override default function
   async getAll<Product>(offset: number = 0, limit: number = 5): Promise<Product[]> {
     const products = await Product.findAll({
       attributes: {

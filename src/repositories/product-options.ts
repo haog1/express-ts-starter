@@ -1,18 +1,20 @@
-import { Optional } from 'sequelize'
+import { Model, Optional } from 'sequelize'
+import { IProductOptionsRepository } from '.'
 import { DefaultHiddenFields } from '../models'
 import { ProductOptionAttrs, ProductOption } from '../models/product-option'
 import { GUID } from '../types/guid'
 import { sequelize, generateId } from '../utils'
 import { BaseRepository } from './base'
 
-export class ProductOptionOptionsRepository extends BaseRepository {
-  async getAll<ProductOption>(offset: number = 0, limit: number = 5): Promise<ProductOption[]> {
+export class ProductOptionOptionsRepository extends BaseRepository implements IProductOptionsRepository {
+  async getAll<ProductOption>(productId: GUID, offset: number = 0, limit: number = 5): Promise<ProductOption[]> {
     const productOptions = await ProductOption.findAll({
       attributes: {
         include: [['guid', 'Id']],
         exclude: ['Id', 'Guid', 'IsDeleted'],
       },
       where: {
+        ProductId: productId,
         IsDeleted: false,
       },
       limit,

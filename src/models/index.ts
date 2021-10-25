@@ -1,5 +1,6 @@
 export * from './interfaces'
 export * from './product'
+export * from './product-option'
 
 import { belongsTo, hasMany, Instance } from '../utils'
 import { Product } from './product'

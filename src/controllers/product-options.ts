@@ -1,33 +1,39 @@
 import { Request, Response, NextFunction } from 'express'
 import { BaseController } from './base'
 import { BadRequest, Ok } from '../constants'
-import { ProductCreationAttrs } from '../models'
-import { GetProductsParameters, CreateProductParameters, RemoveProductParameter } from '../parameters'
-import { IProductsRepository } from '../repositories'
+import { Product, ProductOptionCreationAttrs } from '../models'
+import { GetProductOptionsParameters, CreateProductOptionParameters, RemoveProductOptionParameter } from '../parameters'
+import { IProductOptionsRepository, IProductsRepository } from '../repositories'
 import { mapData, logger } from '../utils'
-import { NotFoundError } from '../errors'
+import { NoRepositoryError, NotFoundError } from '../errors'
+import { IProductOptionsController } from '.'
 
-export class ProductsController extends BaseController<IProductsRepository> {
-  constructor(repo?: IProductsRepository) {
+export class ProductOptionsController
+  extends BaseController<IProductOptionsRepository>
+  implements IProductOptionsController
+{
+  private _productRepo?: IProductsRepository
+  constructor(repo?: IProductOptionsRepository) {
     super(repo)
+  }
+  getSecondRepisotry<T extends number, U extends string>(): IProductsRepository {
+    if (!this._productRepo) {
+      throw new NoRepositoryError('No second repository found: IProductsRepository')
+    }
+    return this._productRepo
+  }
+  setSecondRepisotry<T extends number, U extends string>(productRepo: IProductsRepository): void {
+    this._productRepo = productRepo
   }
 
   getAll = async (req: Request, res: Response, next: NextFunction): Promise<void | never> => {
     try {
       const repo = this.getRepository()
-      const { name, limit, offset } = req.query as unknown as GetProductsParameters
-      if (name) {
-        res.data = {
-          Items: await repo.getAllByName(limit, offset, name),
-        }
-        res.code = Ok
-      } else {
-        res.data = {
-          Items: await repo.getAll(limit, offset),
-        }
-        res.code = Ok
+      const { limit, offset } = req.query as unknown as GetProductOptionsParameters
+      res.data = {
+        Items: await repo.getAll(req.params.id, limit, offset),
       }
-
+      res.code = Ok
       next()
     } catch (error) {
       logger(error)
@@ -56,8 +62,21 @@ export class ProductsController extends BaseController<IProductsRepository> {
   create = async (req: Request, res: Response, next: NextFunction): Promise<void | never> => {
     try {
       const repo = this.getRepository()
-      const createProductParameters = mapData<ProductCreationAttrs, CreateProductParameters>(req.body)
-      const Id = await repo.create(createProductParameters)
+      const productRepo = this.getSecondRepisotry()
+
+      const { id } = req.params
+
+      if (!(await productRepo.getOne<Product>(id))) {
+        throw new NotFoundError('Product Id is incorrect')
+      }
+
+      const createProductOptionParameters = mapData<ProductOptionCreationAttrs, CreateProductOptionParameters>({
+        ...req.body,
+        productId: id,
+      })
+
+      const Id = await repo.create(createProductOptionParameters)
+
       res.data = {
         Id,
       }
@@ -77,7 +96,7 @@ export class ProductsController extends BaseController<IProductsRepository> {
       if (!product) {
         throw new NotFoundError('Product has not been not found')
       }
-      const updateproductParameters = mapData<ProductCreationAttrs, CreateProductParameters>(req.body)
+      const updateproductParameters = mapData<ProductOptionCreationAttrs, CreateProductOptionParameters>(req.body)
       const Id = await repo.updateOne(req.params.id, updateproductParameters)
       res.data = { Id }
       res.code = Ok
@@ -96,7 +115,7 @@ export class ProductsController extends BaseController<IProductsRepository> {
       if (!product) {
         throw new NotFoundError('Product has not been not found or has already been deleted')
       }
-      const { force } = req.query as unknown as RemoveProductParameter
+      const { force } = req.query as unknown as RemoveProductOptionParameter
       res.data = await repo.delete(req.params.id, force)
       res.code = Ok
       next()

@@ -1,9 +1,8 @@
 import { Model, Optional } from 'sequelize'
-import { DefaultHiddenFields, IModel } from '../models'
+import { DefaultHiddenFields, IModel, Product, ProductOption } from '../models'
 import { GUID } from '../types/guid'
 
 export interface IRepository {
-  getAll<M extends Model>(offset: number, limit: number): Promise<M[]>
   getOne<M extends Model>(guid: GUID): Promise<M | null>
   create(entity: Optional<IModel<number, GUID>, DefaultHiddenFields>): Promise<GUID | null>
   updateOne(guid: GUID, entity: Optional<IModel<number, GUID>, DefaultHiddenFields>): Promise<GUID | null>
@@ -11,5 +10,10 @@ export interface IRepository {
 }
 
 export interface IProductsRepository extends IRepository {
-  getAllByName<M extends Model>(offset: number, limit: number, name: string): Promise<M[]>
+  getAll<M extends Model>(offset: number, limit: number): Promise<M[]>
+  getAllByName<M extends Product>(offset: number, limit: number, name: string): Promise<M[]>
+}
+
+export interface IProductOptionsRepository extends IRepository {
+  getAll<M extends Model>(productId: GUID, offset: number, limit: number): Promise<M[]>
 }
