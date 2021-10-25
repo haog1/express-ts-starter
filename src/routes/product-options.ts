@@ -98,4 +98,29 @@ router.patch(
   controller.updateOne,
 )
 
+router.delete(
+  '/:optionId',
+  routeFound,
+  validateRequest({
+    id: {
+      in: ['params'],
+      notEmpty: true,
+      custom: validateGUID(),
+    },
+    optionId: {
+      in: ['params'],
+      notEmpty: true,
+      custom: validateGUID(),
+    },
+    force: {
+      in: ['query'],
+      notEmpty: true,
+      optional: true,
+      isBoolean: true,
+      toBoolean: true,
+    },
+  }),
+  controller.delete,
+)
+
 export default router

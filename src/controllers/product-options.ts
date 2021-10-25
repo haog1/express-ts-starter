@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { BaseController } from './base'
 import { BadRequest, Ok } from '../constants'
-import { Product, ProductOptionCreationAttrs } from '../models'
+import { Product, ProductOption, ProductOptionCreationAttrs } from '../models'
 import { CreateProductOptionParameters, RemoveProductOptionParameter } from '../parameters'
 import { IProductOptionsRepository, IProductsRepository } from '../repositories'
 import { mapData, logger } from '../utils'
@@ -52,6 +52,9 @@ export class ProductOptionsController
       if (!product) {
         throw new NotFoundError('Product has not been not found')
       }
+      if (!(await repo.getOne<ProductOption>(req.params.optionId, req.params.id))) {
+        throw new NotFoundError('Product option requeseted does not exist')
+      }
       const productOption = await repo.getOne(req.params.optionId, req.params.id)
       res.data = productOption
       res.code = Ok
@@ -101,7 +104,9 @@ export class ProductOptionsController
       if (!product) {
         throw new NotFoundError('Product has not been not found')
       }
-
+      if (!(await repo.getOne<ProductOption>(req.params.optionId, req.params.id))) {
+        throw new NotFoundError('Product option requeseted does not exist')
+      }
       const updateData = mapData<ProductOptionCreationAttrs, CreateProductOptionParameters>(req.body)
       const { Id, Guid, IsDeleted, ProductId, ...updateproductOptionParameters } = updateData
       const id = await repo.updateOne(req.params.optionId, updateproductOptionParameters)
@@ -118,12 +123,16 @@ export class ProductOptionsController
   delete = async (req: Request, res: Response, next: NextFunction): Promise<void | never> => {
     try {
       const repo = this.getRepository()
-      const product = await repo.getOne(req.params.id)
+      const productRepo = this.getSecondRepisotry()
+      const product = await productRepo.getOne(req.params.id)
       if (!product) {
         throw new NotFoundError('Product has not been not found or has already been deleted')
       }
+      if (!(await repo.getOne<ProductOption>(req.params.optionId, req.params.id))) {
+        throw new NotFoundError('Product option requeseted does not exist or has been deleted')
+      }
       const { force } = req.query as unknown as RemoveProductOptionParameter
-      res.data = await repo.delete(req.params.id, force)
+      res.data = await repo.delete(req.params.optionId, req.params.id, force)
       res.code = Ok
       next()
     } catch (error) {

@@ -86,7 +86,7 @@ export class ProductOptionOptionsRepository extends BaseRepository implements IP
     }
   }
 
-  async delete(guid: string, force?: boolean): Promise<boolean> {
+  async delete(guid: GUID, productId: GUID, force?: boolean): Promise<boolean> {
     const productOption = await this.getOne(guid)
     if (!productOption) return false
     const transaction = await sequelize.transaction()
@@ -97,6 +97,7 @@ export class ProductOptionOptionsRepository extends BaseRepository implements IP
         res = await ProductOption.destroy({
           where: {
             Guid: guid,
+            ProductId: productId,
           },
           transaction,
         })
@@ -108,6 +109,7 @@ export class ProductOptionOptionsRepository extends BaseRepository implements IP
           {
             where: {
               Guid: guid,
+              ProductId: productId,
               IsDeleted: false,
             },
             transaction,
