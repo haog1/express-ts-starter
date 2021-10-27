@@ -1,10 +1,7 @@
-# micro-base
-Microservices base template
+# express-ts-starter
+Microservices based express.js template
 
 ## Installation
-It's meant to be used and managed together by the orchestration [script](https://github.com/haog1/micro-local-deploy) instead.
-
-### Local development
 To install it,  simply run
 ```bash
 yarn
@@ -13,9 +10,6 @@ To start the app, run
 ```bash
 yarn start
 ```
-
-## Tests
-By default, this microservice base is using `mongodb-memory-server` to mock mongo database and utilises `supertest` for faking http requests.
 
 ### Test case
 Writing test cases for microservices can be very handy. Whenever you are workinig on some features, functions or refactors and etc, just add a default Jest test folder and name it `__test__`. Create any integration or unit test files under this fold and name it `**.test.ts`. There is a global sign in function defined in `/test/setup.ts` which you can use to be authenticated.
